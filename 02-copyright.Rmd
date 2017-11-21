@@ -1,0 +1,14 @@
+---
+output: pdf_document
+---
+
+\linespread{1}\selectfont
+
+\begin{centering}
+
+© Copyright 2017 \break
+Peter Parker
+
+\end{centering}
+
+\linespread{1.6}\selectfont

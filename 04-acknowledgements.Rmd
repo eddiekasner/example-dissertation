@@ -1,0 +1,26 @@
+---
+output:
+  bookdown::pdf_document2:
+geometry: margin = 1in
+fontsize: 11pt
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \renewcommand{\contentsname}{}
+---
+
+\linespread{1}\selectfont
+
+It takes a village to raise a graduate student. I gratefully acknowledge the contributions of many groups and individuals who assisted with this research.
+
+**Doctoral Supervisory Committee.** Drs. Doe and Lee were instrumental in this work. Sed risus pretium quam vulputate dignissim. Posuere morbi leo urna molestie. Consequat interdum varius sit amet mattis vulputate enim nulla. Leo vel orci porta non pulvinar. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Gravida arcu ac tortor dignissim convallis aenean et tortor. Imperdiet nulla malesuada pellentesque elit eget gravida cum sociis. Aliquam purus sit amet luctus venenatis lectus magna fringilla urna. Sit amet tellus cras adipiscing. Vivamus arcu felis bibendum ut tristique et. Convallis convallis tellus id interdum. Sapien pellentesque habitant morbi tristique senectus et netus et malesuada. Lectus sit amet est placerat. Posuere urna nec tincidunt praesent. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis.
+
+**Funding Agencies.** This disseration was supported by Award Number E123456. Additional support was provided by the Department of Environmental and Occupational Health Sciences (DEOHS) at the University of Washington. Ultrices eros in cursus turpis massa tincidunt dui ut. Odio facilisis mauris sit amet. Vitae tortor condimentum lacinia quis vel eros donec. Nulla pellentesque dignissim enim sit. Vulputate eu scelerisque felis imperdiet proin fermentum. Pretium lectus quam id leo in vitae turpis massa sed. Quis lectus nulla at volutpat diam ut. Blandit volutpat maecenas volutpat blandit. Nunc pulvinar sapien et ligula ullamcorper malesuada. Dolor sed viverra ipsum nunc aliquet bibendum. Non diam phasellus vestibulum lorem sed risus ultricies tristique nulla.
+
+**Family and Friends.** Finally, I would like to thank my family and friends for their support. Etiam erat velit scelerisque in dictum non. Risus quis varius quam quisque. Duis at consectetur lorem donec massa sapien faucibus. Eu feugiat pretium nibh ipsum consequat nisl. Nisi vitae suscipit tellus mauris a diam. Id nibh tortor id aliquet lectus. Nec tincidunt praesent semper feugiat nibh sed. Gravida quis blandit turpis cursus. Facilisi morbi tempus iaculis urna id volutpat. Sed augue lacus viverra vitae congue eu consequat.

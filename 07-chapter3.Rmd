@@ -1,0 +1,529 @@
+---
+title: 'Chapter 3: Webbing Fluid'
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output:
+  bookdown::pdf_document2:
+    number_sections: yes
+    toc: yes
+geometry: margin = 1in
+fontsize: 11pt
+bibliography: thesis-references.bib
+csl: science-modified1.csl
+link-citations: true
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+```{r knitr.global.options.ch3, include=F}
+knitr::opts_chunk$set(echo=F, 
+                      warning=F, 
+                      fig.align='center', 
+                      fig.pos='H',
+                      fig.width=12, 
+                      fig.height=8, 
+                      fig.path='Figs/', 
+                      tidy.opts=list(width.cutoff=60),
+                      tidy=TRUE)
+
+```
+
+```{r load.packages.ch3, include=F}
+
+is_installed <- function(mypkg) is.element(mypkg, installed.packages()[,1])
+load_or_install<-function(package_names)
+{
+  for(package_name in package_names)
+  {
+    if(!is_installed(package_name))
+    {
+       install.packages(package_name,repos='http://lib.stat.cmu.edu/R/CRAN')
+    }
+    library(package_name,character.only=TRUE,quietly=TRUE,verbose=FALSE)
+  }
+}
+
+load_or_install(c('fitdistrplus','foreach','ggplot2','scales','proto','Cairo','doBy','plyr','dplyr','readxl','lattice','GGally','tidyverse','tibble', 'moments', 'nortest', 'e1071', 'Hmisc', 'NADA', 'ggthemes','STAND', 'scatterplot3d', 'plotly', 'scales', 'beeswarm', 'gridExtra', 'lme4', 'lattice', 'reshape2', 'compiler', 'parallel', 'boot', 'effects', 'stargazer', 'lubridate', 'anytime', 'chron','RColorBrewer','circular','splitstackshape','multcomp','pander','xtable'))
+
+## https://www.r-bloggers.com/loading-andor-installing-packages-programmatically/
+
+```
+
+```{r load.themes.function.ch3, include=F}
+
+## Koundy's theme ####
+# Source: https://github.com/koundy/ggplot_theme_Publication/blob/master/R/ggplot_theme_Publication.R
+theme_HEI <- function(base_size=18) {
+  library(grid)
+  library(ggthemes)
+  (theme_foundation(base_size=base_size)
+  + theme(plot.title = element_text(face = "bold",
+                                    size = rel(1.2), hjust = 0.5),
+          text = element_text(),
+          panel.background = element_rect(colour = NA),
+          plot.background = element_rect(colour = NA),
+          panel.border = element_rect(colour = NA),
+          axis.title = element_text(face = "bold",size = rel(1)),
+          axis.title.y = element_text(angle=90,vjust =2),
+          axis.title.x = element_text(vjust = -0.2),
+          axis.text = element_text(), 
+          axis.line = element_line(colour="black"),
+          axis.ticks = element_line(),
+          panel.grid.major = element_line(colour="#f0f0f0"),
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = NA),
+          legend.position = "bottom",
+          legend.direction = "horizontal",
+          legend.key.size= unit(0.6, "cm"),
+          legend.margin = unit(0, "cm"),
+          legend.title = element_blank(),
+          plot.margin=unit(c(4,4,4,4),"mm"),
+          strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+          strip.text = element_text(face="bold")
+  ))
+  
+}
+
+## Basic theme ####
+
+theme_BASIC <- function(base_size=11) {
+  library(grid)
+  library(ggthemes)
+  (theme_foundation(base_size=base_size)
+  + theme(plot.title = element_text(hjust = 0.5),
+          text = element_text(),
+          panel.background = element_rect(colour = NA),
+          plot.background = element_rect(colour = NA),
+          panel.border = element_rect(colour = NA),
+          axis.title = element_text(face = "bold",size = rel(1)),
+          axis.title.y = element_blank(),
+          axis.title.x = element_blank(),
+          axis.text = element_text(), 
+          axis.line = element_blank(),
+          axis.ticks = element_line(),
+          panel.grid.major = element_line(colour="gray65"),
+          panel.grid.minor = element_blank(),
+          legend.key = element_rect(colour = NA),
+          legend.position = "bottom",
+          legend.direction = "horizontal",
+          legend.key.size= unit(0.4, "cm"),
+          legend.margin = unit(0, "cm"),
+          legend.title = element_blank(),
+          plot.margin=unit(c(2,2,2,2),"mm"),
+          strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
+          strip.text = element_text(face="bold")
+  ))
+  
+}
+
+```
+
+```{r load.am.asd.gm.gsd.function.ch3, include=F}
+# Write and use GM, GSD, AM, ASD functions
+
+## No error handling
+
+gm<-function(x){
+    rslt<-exp(mean(log(x))) 
+    return(rslt)
+    }
+
+gsd<-function(x){
+    rslt<-exp(sqrt(var(log(x))))
+    return(rslt)
+    }
+
+## Error handling
+
+gm_eh<-function(x){
+    if(sum(is.na(x))>0)
+    {return(NA)}
+    if(sum(!is.finite(log(x)))==0)
+    {rslt<-exp(mean(log(x)))} # problem if x=0 -> log
+    else{rslt<-Inf}
+    return(rslt)
+    }
+
+gsd_eh<-function(x){
+    if(sum(is.na(x))>0)
+    {return(NA)}
+    if(sum(!is.finite(log(x)))==0)
+    {rslt<-exp(sqrt(var(log(x))))} # problem if x=0 -> log
+    else{rslt<-Inf}
+    return(rslt)
+    }
+
+n.am.asd.gm.gsd<-function(dta){
+    x<-subset(dta, !is.na(dta))
+    return(c( N=length(x),AM=mean(x),ASD=sd(x),GM=gm_eh(x),GSD=gsd_eh(x) ))
+    }
+
+```
+
+```{r upload.and.clean.data.ch3, include=F}
+
+## Read in integrated sampling data from .csv file
+bc    <- read.csv('/home/ejkasner/example.dissertation/Data/bc.28feb2017.csv', header=T)
+dylos <- read.csv('/home/ejkasner/example.dissertation/Data/dylos.28feb2017.csv', header=T)
+qtrak <- read.csv('/home/ejkasner/example.dissertation/Data/qtrak.28feb2017.csv', header=T)
+nano  <- read.csv('/home/ejkasner/example.dissertation/Data/nanoscan.28feb2017.csv', header=T)
+
+## Deal with time data
+bc$time         <- as.POSIXct(bc$time, format="%H:%M:%S")
+dylos$time      <- as.POSIXct(dylos$time, format="%H:%M")
+qtrak$time      <- as.POSIXct(qtrak$time, format="%H:%M")
+nano$date.time  <- as.POSIXct(nano$date.time, format="%m/%d/%y %H:%M")
+nano$time       <- format(nano$date.time, "%H:%M")
+nano$time       <- as.POSIXct(nano$time, format="%H:%M")
+
+### Convert Dylos data from #/0.01 ft3 to #/cm^3
+dylos$n_gte_0.5um_cm3  <-  dylos$bin1 / 283.1685
+dylos$n_gte_1.0um_cm3  <-  dylos$bin2 / 283.1685
+dylos$n_gte_2.5um_cm3  <-  dylos$bin3 / 283.1685
+dylos$n_gte_10.0um_cm3 <-  dylos$bin4 / 283.1685
+
+### Determine counts for each bin range
+dylos$n_0.5_1.0um_cm3  <-  dylos$n_gte_0.5um_cm3 -  dylos$n_gte_1.0um_cm3
+dylos$n_1.0_2.5um_cm3  <-  dylos$n_gte_1.0um_cm3 -  dylos$n_gte_2.5um_cm3
+dylos$n_2.5_10.0um_cm3 <-  dylos$n_gte_2.5um_cm3 -  dylos$n_gte_10.0um_cm3
+
+## Subset by sampler type, above/below, offpeak/peak, day1/day2
+bc.abv.ofpk.1 <- subset(bc, location=='above' & period=='off peak' & day=='1')
+bc.blw.ofpk.1 <- subset(bc, location=='below' & period=='off peak' & day=='1')
+bc.abv.peak.1 <- subset(bc, location=='above' & period=='peak'     & day=='1')
+bc.blw.peak.1 <- subset(bc, location=='below' & period=='peak'     & day=='1')
+bc.abv.ofpk.2 <- subset(bc, location=='above' & period=='off peak' & day=='2')
+bc.blw.ofpk.2 <- subset(bc, location=='below' & period=='off peak' & day=='2')
+bc.abv.peak.2 <- subset(bc, location=='above' & period=='peak'     & day=='2')
+bc.blw.peak.2 <- subset(bc, location=='below' & period=='peak'     & day=='2')
+
+dy.abv.ofpk.1 <- subset(dylos, location=='above' & period=='off peak' & day=='1')
+dy.blw.ofpk.1 <- subset(dylos, location=='below' & period=='off peak' & day=='1')
+dy.abv.peak.1 <- subset(dylos, location=='above' & period=='peak'     & day=='1')
+dy.blw.peak.1 <- subset(dylos, location=='below' & period=='peak'     & day=='1')
+dy.abv.ofpk.2 <- subset(dylos, location=='above' & period=='off peak' & day=='2')
+dy.blw.ofpk.2 <- subset(dylos, location=='below' & period=='off peak' & day=='2')
+dy.abv.peak.2 <- subset(dylos, location=='above' & period=='peak'     & day=='2')
+dy.blw.peak.2 <- subset(dylos, location=='below' & period=='peak'     & day=='2')
+
+qt.abv.ofpk.1 <- subset(qtrak, location=='above' & period=='off peak' & day=='1')
+qt.blw.ofpk.1 <- subset(qtrak, location=='below' & period=='off peak' & day=='1')
+qt.abv.peak.1 <- subset(qtrak, location=='above' & period=='peak'     & day=='1')
+qt.blw.peak.1 <- subset(qtrak, location=='below' & period=='peak'     & day=='1')
+qt.abv.ofpk.2 <- subset(qtrak, location=='above' & period=='off peak' & day=='2')
+qt.blw.ofpk.2 <- subset(qtrak, location=='below' & period=='off peak' & day=='2')
+qt.abv.peak.2 <- subset(qtrak, location=='above' & period=='peak'     & day=='2')
+qt.blw.peak.2 <- subset(qtrak, location=='below' & period=='peak'     & day=='2')
+
+nn.abv.ofpk.1 <- subset(nano, location=='above' & period=='off peak'  & day=='1')
+nn.blw.ofpk.1 <- subset(nano, location=='below' & period=='off peak'  & day=='1')
+nn.abv.peak.1 <- subset(nano, location=='above' & period=='peak'      & day=='1')
+nn.blw.peak.1 <- subset(nano, location=='below' & period=='peak'      & day=='1')
+nn.abv.ofpk.2 <- subset(nano, location=='above' & period=='off peak'  & day=='2')
+nn.blw.ofpk.2 <- subset(nano, location=='below' & period=='off peak'  & day=='2')
+nn.abv.peak.2 <- subset(nano, location=='above' & period=='peak'      & day=='2')
+nn.blw.peak.2 <- subset(nano, location=='below' & period=='peak'      & day=='2')
+
+#NEED TO CHANGE REFERENCE YYYY-MM-DD BELOW TO CURRENT DATE (I.E. DATE OF KNIT) FOR TIME SERIES. DO NOT CHANGE REFERENCE TIME!!!
+
+## Seconds for above off peak
+bc.abv.ofpk.1$seconds <- as.numeric(difftime(bc.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
+dy.abv.ofpk.1$seconds <- as.numeric(difftime(dy.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
+qt.abv.ofpk.1$seconds <- as.numeric(difftime(qt.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
+nn.abv.ofpk.1$seconds <- as.numeric(difftime(nn.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
+
+bc.abv.ofpk.2$seconds <- as.numeric(difftime(bc.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
+dy.abv.ofpk.2$seconds <- as.numeric(difftime(dy.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
+qt.abv.ofpk.2$seconds <- as.numeric(difftime(qt.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
+nn.abv.ofpk.2$seconds <- as.numeric(difftime(nn.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
+
+## Seconds for below off peak
+bc.blw.ofpk.1$seconds <- as.numeric(difftime(bc.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
+dy.blw.ofpk.1$seconds <- as.numeric(difftime(dy.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
+qt.blw.ofpk.1$seconds <- as.numeric(difftime(qt.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
+nn.blw.ofpk.1$seconds <- as.numeric(difftime(nn.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
+
+bc.blw.ofpk.2$seconds <- as.numeric(difftime(bc.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
+dy.blw.ofpk.2$seconds <- as.numeric(difftime(dy.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
+qt.blw.ofpk.2$seconds <- as.numeric(difftime(qt.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
+nn.blw.ofpk.2$seconds <- as.numeric(difftime(nn.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
+
+## Seconds for above peak
+bc.abv.peak.1$seconds <- as.numeric(difftime(bc.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
+dy.abv.peak.1$seconds <- as.numeric(difftime(dy.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
+qt.abv.peak.1$seconds <- as.numeric(difftime(qt.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
+nn.abv.peak.1$seconds <- as.numeric(difftime(nn.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
+
+bc.abv.peak.2$seconds <- as.numeric(difftime(bc.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
+dy.abv.peak.2$seconds <- as.numeric(difftime(dy.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
+qt.abv.peak.2$seconds <- as.numeric(difftime(qt.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
+nn.abv.peak.2$seconds <- as.numeric(difftime(nn.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
+
+## Seconds for below peak
+bc.blw.peak.1$seconds <- as.numeric(difftime(bc.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
+dy.blw.peak.1$seconds <- as.numeric(difftime(dy.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
+qt.blw.peak.1$seconds <- as.numeric(difftime(qt.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
+nn.blw.peak.1$seconds <- as.numeric(difftime(nn.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
+
+bc.blw.peak.2$seconds <- as.numeric(difftime(bc.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
+dy.blw.peak.2$seconds <- as.numeric(difftime(dy.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
+qt.blw.peak.2$seconds <- as.numeric(difftime(qt.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
+nn.blw.peak.2$seconds <- as.numeric(difftime(nn.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
+
+## Merge subsets back together with all second-level data
+bc.abv.ofpk <- rbind(bc.abv.ofpk.1,bc.abv.ofpk.2)
+bc.blw.ofpk <- rbind(bc.blw.ofpk.1,bc.blw.ofpk.2)
+bc.abv.peak <- rbind(bc.abv.peak.1,bc.abv.peak.2)
+bc.blw.peak <- rbind(bc.blw.peak.1,bc.blw.peak.2)
+
+dy.abv.ofpk <- rbind(dy.abv.ofpk.1,dy.abv.ofpk.2)
+dy.blw.ofpk <- rbind(dy.blw.ofpk.1,dy.blw.ofpk.2)
+dy.abv.peak <- rbind(dy.abv.peak.1,dy.abv.peak.2)
+dy.blw.peak <- rbind(dy.blw.peak.1,dy.blw.peak.2)
+
+qt.abv.ofpk <- rbind(qt.abv.ofpk.1,qt.abv.ofpk.2)
+qt.blw.ofpk <- rbind(qt.blw.ofpk.1,qt.blw.ofpk.2)
+qt.abv.peak <- rbind(qt.abv.peak.1,qt.abv.peak.2)
+qt.blw.peak <- rbind(qt.blw.peak.1,qt.blw.peak.2)
+
+nn.abv.ofpk <- rbind(nn.abv.ofpk.1,nn.abv.ofpk.2)
+nn.blw.ofpk <- rbind(nn.blw.ofpk.1,nn.blw.ofpk.2)
+nn.abv.peak <- rbind(nn.abv.peak.1,nn.abv.peak.2)
+nn.blw.peak <- rbind(nn.blw.peak.1,nn.blw.peak.2)
+
+bc.1 <- rbind(bc.abv.ofpk.1, bc.blw.ofpk.1, bc.abv.peak.1, bc.blw.peak.1)
+dy.1 <- rbind(dy.abv.ofpk.1, dy.blw.ofpk.1, dy.abv.peak.1, dy.blw.peak.1)
+qt.1 <- rbind(qt.abv.ofpk.1, qt.blw.ofpk.1, qt.abv.peak.1, qt.blw.peak.1)
+nn.1 <- rbind(nn.abv.ofpk.1, nn.blw.ofpk.1, nn.abv.peak.1, nn.blw.peak.1)
+
+bc.2 <- rbind(bc.abv.ofpk.2, bc.blw.ofpk.2, bc.abv.peak.2, bc.blw.peak.2)
+dy.2 <- rbind(dy.abv.ofpk.2, dy.blw.ofpk.2, dy.abv.peak.2, dy.blw.peak.2)
+qt.2 <- rbind(qt.abv.ofpk.2, qt.blw.ofpk.2, qt.abv.peak.2, qt.blw.peak.2)
+nn.2 <- rbind(nn.abv.ofpk.2, nn.blw.ofpk.2, nn.abv.peak.2, nn.blw.peak.2)
+
+bc.final <- rbind(bc.1,bc.2)
+dy.final <- rbind(dy.1,dy.2)
+qt.final <- rbind(qt.1,qt.2)
+nn.final <- rbind(nn.1,nn.2)
+
+### Melt from wide to long
+
+bc.long <- melt(bc.final, id = c("time","seconds","location","period","day"), measure.vars = c("bc"))
+
+dy.long <- melt(dy.final, id = c("time","seconds","location","period","day"), measure.vars = c("n_0.5_1.0um_cm3","n_1.0_2.5um_cm3","n_2.5_10.0um_cm3","n_gte_10.0um_cm3"))
+
+qt.long <- melt(qt.final, id = c("time","seconds","location","period","day"), measure.vars = c("co2.ppm","co.ppm"))
+                
+nn.long <- melt(nn.final, id = c("time","seconds","location","period","day"), measure.vars = c("bin_11.5","bin_15.4","bin_20.5","bin_27.4","bin_36.5","bin_48.7","bin_64.9","bin_86.6","bin_115.5","bin_154","bin_205.4","bin_273.8","bin_365.2","total.conc.num.cm3"))
+
+### Concatenate location and period
+
+bc.long$location.period <- paste(bc.long$location,bc.long$period)
+dy.long$location.period <- paste(dy.long$location,dy.long$period)
+qt.long$location.period <- paste(qt.long$location,qt.long$period)
+nn.long$location.period <- paste(nn.long$location,nn.long$period)
+
+bc.long$location.period.day <- paste(bc.long$location,bc.long$period,bc.long$day)
+dy.long$location.period.day <- paste(dy.long$location,dy.long$period,dy.long$day)
+qt.long$location.period.day <- paste(qt.long$location,qt.long$period,qt.long$day)
+nn.long$location.period.day <- paste(nn.long$location,nn.long$period,nn.long$day)
+
+```
+
+\linespread{1.6}\selectfont
+
+# Making Webbing Fluid
+
+## Abstract
+
+Quis risus sed vulputate odio ut enim blandit volutpat maecenas. Lacinia quis vel eros donec ac. Varius morbi enim nunc faucibus a pellentesque sit. Mauris pharetra et ultrices neque ornare. Non nisi est sit amet facilisis. Viverra mauris in aliquam sem fringilla ut morbi tincidunt augue. Arcu odio ut sem nulla pharetra diam sit. Varius quam quisque id diam vel quam. In arcu cursus euismod quis viverra nibh cras pulvinar. Id faucibus nisl tincidunt eget nullam non nisi est. Mauris ultrices eros in cursus turpis massa tincidunt dui ut. Nisi porta lorem mollis aliquam ut porttitor leo a diam. Ut enim blandit volutpat maecenas volutpat blandit. Netus et malesuada fames ac turpis egestas integer. Diam maecenas sed enim ut sem viverra aliquet.
+
+This chapter addresses the following sub-aims:
+
+\linespread{1}\selectfont
+
+* Test elemental composition of webbing
+
+* Produce models to determine which webbing type that is most appropriate for different conditions
+
+\linespread{1.6}\selectfont
+
+## Introduction
+
+Euismod elementum nisi quis eleifend quam adipiscing vitae. Leo vel orci porta non pulvinar neque laoreet. Fermentum iaculis eu non diam phasellus. Nec ullamcorper sit amet risus nullam eget felis eget nunc [@r-lattice]. Pretium vulputate sapien nec sagittis aliquam. Posuere ac ut consequat semper viverra nam libero justo. Nibh tortor id aliquet lectus proin nibh nisl condimentum. Tortor at risus viverra adipiscing. Mauris nunc congue nisi vitae suscipit. Volutpat sed cras ornare arcu dui vivamus. Magna fermentum iaculis eu non diam [@ramachandran-2005]. Sed sed risus pretium quam [@lorem-ipsum-2017]. At varius vel pharetra vel turpis nunc. Viverra mauris in aliquam sem fringilla ut morbi.
+
+## Methods
+
+### Duis at tellus at urna
+
+#### In hac habitasse platea
+
+Nec dui nunc mattis enim ut tellus elementum sagittis vitae. Tincidunt nunc pulvinar sapien et ligula. A iaculis at erat pellentesque adipiscing. Magna etiam tempor orci eu lobortis elementum nibh tellus. Fusce ut placerat orci nulla pellentesque dignissim enim. Turpis egestas pretium aenean pharetra magna ac placerat vestibulum lectus. Porttitor massa id neque aliquam vestibulum morbi blandit cursus risus. In nibh mauris cursus mattis. Faucibus turpis in eu mi. Sed tempus urna et pharetra pharetra. Massa tincidunt nunc pulvinar sapien et ligula. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus. Libero id faucibus nisl tincidunt eget nullam non nisi. Ut faucibus pulvinar elementum integer enim neque. Tortor condimentum lacinia quis vel eros donec. Varius duis at consectetur lorem. Ultricies leo integer malesuada nunc. Ac placerat vestibulum lectus mauris ultrices eros in cursus.
+
+#### Mi in nulla posuere sollicitudin aliquam 
+
+**Odio morbi quis commodo odio**
+
+Nullam ac tortor vitae purus. Et egestas quis ipsum suspendisse. Massa tincidunt dui ut ornare lectus. Cursus vitae congue mauris rhoncus aenean vel. Velit egestas dui id ornare arcu odio. Justo eget magna fermentum iaculis eu non. Nibh praesent tristique magna sit amet purus gravida. Nunc sed id semper risus in. Arcu cursus euismod quis viverra nibh cras pulvinar mattis nunc. Etiam non quam lacus suspendisse faucibus interdum posuere lorem. Viverra accumsan in nisl nisi scelerisque eu ultrices vitae. Vivamus at augue eget arcu dictum varius duis at consectetur. Gravida quis blandit turpis cursus.
+
+Posuere urna nec tincidunt praesent semper feugiat. Morbi tristique senectus et netus et malesuada fames ac. Tempus iaculis urna id volutpat lacus laoreet non curabitur. Id porta nibh venenatis cras sed felis eget velit. *Eu volutpat* odio facilisis mauris sit. Scelerisque fermentum dui faucibus in ornare quam. Egestas dui id ornare arcu odio. Donec ultrices tincidunt arcu non sodales neque sodales ut etiam. Adipiscing diam donec adipiscing tristique. Egestas dui id ornare arcu odio ut sem nulla.
+
+**Nullam non nisi**
+
+Sed faucibus turpis in eu mi bibendum neque egestas. Ut lectus arcu bibendum at varius vel pharetra. Morbi tristique senectus et netus et malesuada fames ac turpis. Ipsum dolor sit amet consectetur adipiscing elit pellentesque. Iaculis nunc sed augue lacus viverra vitae congue. Tincidunt dui ut ornare lectus sit amet est. Dignissim diam quis enim lobortis. Leo urna molestie at elementum eu facilisis sed odio morbi. Arcu felis bibendum ut tristique. 
+
+### Etiam non quam
+
+Nullam ac tortor vitae purus. Dolor purus non enim praesent elementum facilisis leo vel fringilla. Id diam maecenas ultricies mi eget mauris pharetra. Dignissim suspendisse in est ante in. Eget duis at tellus at urna condimentum mattis pellentesque. Ullamcorper a lacus vestibulum sed arcu. At in tellus integer feugiat scelerisque varius morbi enim nunc.
+
+#### Id semper risus
+
+Velit scelerisque in dictum non consectetur. Pellentesque habitant morbi tristique senectus et. Et ligula ullamcorper malesuada proin. At volutpat diam ut venenatis tellus in. Nisl rhoncus mattis rhoncus urna neque viverra justo nec. Euismod elementum nisi quis eleifend quam adipiscing vitae [@r-lattice]. Nunc congue nisi vitae suscipit tellus ([Appendix A][Appendix A: Purus faucibus ornare]). Consectetur libero id faucibus nisl. In cursus turpis massa tincidunt dui. Id semper risus in hendrerit gravida rutrum. Diam vel quam elementum pulvinar etiam non [@lorem-ipsum-2017]. Sit amet cursus sit amet dictum sit amet. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. *Leo duis ut diam quam nulla.* Quam quisque id diam vel quam elementum pulvinar etiam. Magnis dis parturient montes nascetur. Auctor urna nunc id cursus metus aliquam eleifend mi in. Id leo in vitae turpis massa sed. Fringilla est ullamcorper eget nulla facilisi etiam. Ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant.
+
+#### Application
+
+Duis ut diam quam nulla. Urna condimentum mattis pellentesque id nibh tortor id. Habitant morbi tristique senectus et netus et malesuada fames [@lorem-ipsum-2017]. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Nascetur ridiculus mus mauris vitae. Sapien pellentesque habitant morbi tristique. Sed libero enim sed faucibus turpis in eu 70\% Zn. Dui sapien eget mi proin sed libero enim sed. Maecenas ultricies mi eget mauris pharetra et. Pellentesque diam volutpat commodo sed egestas. Risus nec feugiat in fermentum posuere urna nec tincidunt praesent. Etiam erat velit scelerisque in dictum non (43\% Cu). Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Facilisi cras fermentum odio eu feugiat pretium nibh.
+
+Pellentesque habitant morbi tristique senectus et. Quis ipsum suspendisse ultrices gravida. Tellus in hac habitasse platea. Pretium nibh ipsum consequat nisl vel pretium. Urna molestie at elementum eu facilisis sed odio [@lorem-ipsum-2017]. Dis parturient montes nascetur ridiculus mus. Interdum velit euismod in pellentesque massa placerat. Viverra maecenas accumsan lacus vel. Erat velit scelerisque in dictum. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Nec sagittis aliquam malesuada bibendum arcu. Felis imperdiet proin fermentum leo vel orci porta. Ut consequat semper viverra nam libero. Facilisis mauris sit amet massa vitae tortor.
+
+#### Vulputate enim nulla
+
+Lectus proin nibh nisl condimentum id venenatis. Pharetra vel turpis nunc eget lorem. Vulputate enim nulla aliquet porttitor. Consectetur libero id faucibus nisl tincidunt eget nullam non nisi. Orci porta non pulvinar neque laoreet suspendisse interdum consectetur. Volutpat maecenas volutpat blandit aliquam etiam erat. Libero justo laoreet sit amet cursus. Adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Risus at ultrices mi tempus imperdiet nulla malesuada pellentesque. Aliquam etiam erat velit scelerisque in dictum.
+
+Hendrerit gravida rutrum quisque non tellus orci. Tempor id eu nisl nunc mi ipsum. Consequat nisl vel pretium lectus quam id leo. Mattis aliquam faucibus purus in massa tempor nec feugiat. Non diam phasellus vestibulum lorem sed. Facilisis leo vel fringilla est ullamcorper eget ($\frac{1}{4}$). At quis risus sed vulputate odio ut enim blandit volutpat. Quis auctor elit sed vulputate. Netus et malesuada fames ac turpis egestas sed tempus urna. Eu augue ut lectus arcu bibendum at varius vel. Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Arcu felis bibendum ut tristique ($E_{\Sigma}$), as described in Equation \@ref(eq:singlefiber):
+
+\begin{equation}
+  E_{\Sigma} = \frac{number \ collected \ on \ unit \ length}{number \ geometrically \ incident \ on \ unit \ length}
+(\#eq:singlefiber)
+\end{equation}
+
+Parturient montes nascetur ($E_{R}$), ridiculus mus ($E_{I}$), and ligula ullamcorper ($E_{G}$) hendrerit gravida rutrum quisque non tellus orci. Tempor id eu nisl nunc mi ipsum. Consequat nisl vel pretium lectus quam id leo. Mattis aliquam faucibus purus in massa tempor nec feugiat. Non diam phasellus vestibulum lorem sed. Facilisis leo vel fringilla est ullamcorper eget. At quis risus sed vulputate odio ut enim blandit volutpat. Quis auctor elit sed vulputate. Netus et malesuada fames ac turpis egestas sed tempus urna. Eu augue ut lectus arcu bibendum at varius vel. Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Arcu felis bibendum ut tristique.
+
+Data were managed and analyzed with R version 3.3.3 (2017-03-06) using the following packages: beeswarm, bookdown, ggplot2, ggthemes, gridExtra, knitr, lattice, lme4, lubridate, pander, and reshape [@r-beeswarm; @r-bookdown; @r-ggplot; @r-ggthemes; @r-gridExtra; @r-knitr; @r-lattice; @r-lme4; @r-lubridate; @r-pander; @r-reshape]. We produced plots of distributions, arithmetic and geometric means and standard deviations, scatter plots, box plots, and a heat map. 
+
+The following criteria were used:
+
+* Tortor aliquam nulla facilisi cras
+* Dignissim suspendisse in est ante in
+* Auctor urna nunc id cursus metus [@icy-2017]
+
+## Results
+
+### Adipiscing at in tellus integer feugiat
+
+Pellentesque habitant morbi tristique senectus et. Quis ipsum suspendisse ultrices gravida. Tellus in hac habitasse platea. Pretium nibh ipsum consequat nisl vel pretium. Urna molestie at elementum eu facilisis sed odio. Dis 30\% parturient montes nascetur ridiculus mus. Interdum velit euismod in pellentesque massa placerat. Viverra maecenas accumsan lacus vel. Erat velit scelerisque in dictum 52\%. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci (Figure \@ref(fig:below-sampling)). Nec sagittis aliquam malesuada bibendum arcu. Felis imperdiet proin fermentum leo vel orci porta. Ut consequat semper viverra nam libero. Facilisis mauris sit amet massa vitae tortor.
+
+Vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Lacus sed turpis tincidunt id aliquet risus feugiat. Nullam non nisi est sit. Diam maecenas sed enim ut sem viverra aliquet. A erat nam at lectus (Figure \@ref(fig:nn-boxplot)). Nunc non blandit massa enim nec dui nunc mattis enim. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. Quis ipsum suspendisse ultrices gravida. Sodales ut eu sem integer vitae justo eget magna (Table \@ref(tab:sampling-times-day1)). Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Leo urna molestie at elementum eu facilisis sed odio morbi. Sed libero enim sed faucibus turpis in eu mi bibendum. Urna neque viverra justo nec. Sed sed risus pretium quam vulputate dignissim suspendisse in est. Erat nam at lectus urna. Morbi tincidunt augue interdum velit euismod in pellentesque massa. Nunc eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Parturient montes nascetur ridiculus mus.
+
+### Tellus integer feugiat
+
+Hendrerit gravida rutrum quisque non tellus orci. Tempor id eu nisl nunc mi ipsum. Consequat nisl vel pretium lectus quam id leo. Mattis aliquam faucibus purus in massa tempor nec feugiat. Non diam phasellus vestibulum lorem sed. Facilisis leo vel fringilla est ullamcorper eget. At quis risus sed vulputate odio ut enim blandit volutpat ($\frac{10}{15}$), vestibulum lorem sed at 20\% ($\frac{3}{15}$), and posuere sollicitudin ($\frac{2}{15}$). Quis auctor elit sed vulputate. Netus et malesuada fames ac turpis egestas sed tempus urna. Eu augue ut lectus arcu bibendum at varius vel. Elementum tempus egestas sed sed risus pretium quam vulputate dignissim. Arcu felis bibendum ut tristique.
+
+## Discussion
+
+Velit scelerisque in dictum non consectetur. Pellentesque habitant morbi tristique senectus et. Et ligula ullamcorper malesuada proin. At volutpat diam ut venenatis tellus in. Nisl rhoncus mattis rhoncus urna neque viverra justo nec. Euismod elementum nisi quis eleifend quam adipiscing vitae. Nunc congue nisi vitae suscipit tellus. Consectetur libero id faucibus nisl. In cursus turpis massa tincidunt dui. Id semper risus in hendrerit gravida rutrum. Diam vel quam elementum pulvinar etiam non. Sit amet cursus sit amet dictum sit amet. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Leo duis ut diam quam nulla. Quam quisque id diam vel quam elementum pulvinar etiam. Magnis dis parturient montes nascetur. Auctor urna nunc id cursus metus aliquam eleifend mi in. Id leo in vitae turpis massa sed. Fringilla est ullamcorper eget nulla facilisi etiam. Ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant.
+
+Odio facilisis mauris sit amet. Lacus sed viverra tellus in. Mattis vulputate enim nulla aliquet porttitor lacus luctus. Purus faucibus ornare suspendisse sed nisi lacus sed viverra tellus. Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque. Hendrerit gravida rutrum quisque non tellus orci ac auctor augue. Donec et odio pellentesque diam volutpat. Metus vulputate eu scelerisque felis imperdiet proin fermentum leo. Placerat orci nulla pellentesque dignissim enim sit amet venenatis urna. Velit ut tortor pretium viverra suspendisse potenti. Ipsum consequat nisl vel pretium lectus. Facilisis volutpat est velit egestas dui id ornare. Aliquam etiam erat velit scelerisque in dictum non. Morbi tristique senectus et netus et. Sagittis eu volutpat odio facilisis mauris sit amet massa. Eget est lorem ipsum dolor sit amet consectetur. Volutpat consequat mauris nunc congue nisi vitae suscipit tellus. Pulvinar sapien et ligula ullamcorper malesuada proin libero. Pulvinar mattis nunc sed blandit libero volutpat sed.
+
+<!--## References
+
+\linespread{1}\selectfont
+
+<div id="refs"></div>--->
+
+\clearpage
+
+\linespread{1}\selectfont
+
+## Tables
+
+Table: (\#tab:summary-table)This is it.
+
+```{r summary-table, fig.cap = '(tab:summary-table)', message=F, warnings=F, results='asis', echo=F}
+tabl <- " 
+-----------------------------------------------------------------------------------  
+Contaminant - Instrument    Units      Above      Above    Below        Below
+                                       Off Peak   Peak     Off Peak     Peak
+-------------------------- ---------- ---------- -------- ------------ ------------
+CO - Q-Trak *               ppm        0.031      0.094    0.037         **0.121** 
+
+CO~2~ - Q-Trak              ppm        484        559      531           **622**
+
+BC - MicroAeth              fg/cm^3^   2,940      6,280    **16,300**    5,760
+
+PM - Nanos (12-365 nm)      #/cm^3^    23,990     27,080   **37,860**    22,190
+
+PM - Dylos (0.5-10 µm)      #/cm^3^    11.04      13.00    12.78         **14.70**
+-----------------------------------------------------------------------------------
+"
+cat(tabl) 
+```
+
+Table: (\#tab:sampling-times-day1)Traffic at time of crime. (*) Some footnote. (\*\*) Another footnote.
+
+```{r sampling-times-day1, fig.cap = '(tab:sampling-times-day1)', message=F, warnings=F, results='asis', echo=F}
+tabl <- " 
+---------------------------------------------------
+Traffic level     Date           Start      Stop          
+---------------- -------------- ---------  --------
+Above Off Peak    28 Feb 2017     12:50     13:20
+
+Below Off Peak    28 Feb 2017     13:33     14:03
+
+Above Peak*       28 Feb 2017     15:31     16:01
+
+Below Peak**      28 Feb 2017     16:10     16:40
+---------------------------------------------------  
+"
+cat(tabl) 
+```
+
+\clearpage
+
+## Figures
+
+(ref:below-sampling) Caption for above ground sampling image. 
+
+```{r below-sampling, fig.cap='(ref:below-sampling)', fig.width=6, fig.height=6, echo=F}
+library(png)
+library(grid)
+img <- readPNG("/home/ejkasner/example.dissertation/Images/BelowSampling1.png")
+ grid.raster(img)
+```
+
+(ref:nn-boxplot) Caption for box plot of nanoscan particle sizer.
+
+```{r nn-boxplot, fig.cap='(ref:nn-boxplot)', cache=F, fig.height=10}
+
+par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
+
+ggplot(nn.long[nn.long$variable!='total.conc.num.cm3',], aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Nanoscan Particle Monitoring", x="Bin Size (nm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('11.5','15.4','20.5','27.4','36.5','48.7','64.9','86.6','115.5','154','205.4','273.8','365.2')) + scale_y_continuous(breaks=seq(0, 15000, 2000)) + theme_HEI(16)
+
+```
+
+(ref:dy-boxplot) Caption for box plot of Dylos particle sizer.
+
+```{r dy-boxplot, fig.cap='(ref:dy-boxplot)', cache=F, fig.height=10}
+
+par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
+
+ggplot(dy.long, aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Dylos Particle Monitoring", x="Bin Size (µm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('0.5-1.0','1.0-2.5','2.5-10.0','>10.0')) + theme_HEI(16)
+
+```
+
+\clearpage
+
+## Appendices
+
+### Appendix A: Purus faucibus ornare
+
+Velit scelerisque in dictum non consectetur. Pellentesque habitant morbi tristique senectus et. Et ligula ullamcorper malesuada proin. At volutpat diam ut venenatis tellus in. Nisl rhoncus mattis rhoncus urna neque viverra justo nec. Euismod elementum nisi quis eleifend quam adipiscing vitae. Nunc congue nisi vitae suscipit tellus. Consectetur libero id faucibus nisl. In cursus turpis massa tincidunt dui. Id semper risus in hendrerit gravida rutrum. Diam vel quam elementum pulvinar etiam non. Sit amet cursus sit amet dictum sit amet. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Leo duis ut diam quam nulla. Quam quisque id diam vel quam elementum pulvinar etiam. Magnis dis parturient montes nascetur. Auctor urna nunc id cursus metus aliquam eleifend mi in. Id leo in vitae turpis massa sed. Fringilla est ullamcorper eget nulla facilisi etiam. Ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant.

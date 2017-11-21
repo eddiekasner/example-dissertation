@@ -1,0 +1,141 @@
+---
+title: 'Chapter 4: Fighting Crime'
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output:
+  bookdown::pdf_document2:
+    number_sections: yes
+    toc: yes
+geometry: margin = 1in
+fontsize: 11pt
+bibliography: thesis-references.bib
+csl: science-modified1.csl
+link-citations: true
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+\linespread{1.6}\selectfont
+
+# Fighting Crime
+
+## Abstract
+
+Fighting crime is a difficult job. More text for abstract goes here. Libero nunc consequat interdum varius sit amet mattis. Sed vulputate mi sit amet mauris commodo. Curabitur vitae nunc sed velit dignissim. Pulvinar etiam non quam lacus suspendisse faucibus. Vestibulum lectus mauris ultrices eros in cursus turpis. Cursus eget nunc scelerisque viverra mauris in aliquam sem fringilla. Gravida quis blandit turpis cursus in hac. Enim blandit volutpat maecenas volutpat blandit aliquam. Dictum at tempor commodo ullamcorper a lacus vestibulum sed. Feugiat nibh sed pulvinar proin gravida hendrerit lectus a.
+
+This chapter addresses the following sub-aims:
+
+\linespread{1}\selectfont
+
+* Use spider webs to catch criminals
+
+* Work normal day job to stay disguised
+
+\linespread{1.6}\selectfont
+
+## Introduction
+
+### Porttitor rhoncus
+
+Nulla facilisi cras fermentum odio eu feugiat pretium. At consectetur lorem donec massa sapien faucibus et molestie ac. Interdum velit euismod in pellentesque massa placerat. Etiam dignissim diam quis enim lobortis scelerisque fermentum dui faucibus. Faucibus a pellentesque sit amet porttitor eget. Sed cras ornare arcu dui vivamus. Porttitor rhoncus dolor purus non enim. Aliquam sem fringilla ut morbi tincidunt augue interdum velit euismod. Velit sed ullamcorper morbi tincidunt ornare. Aliquet nec ullamcorper sit amet risus nullam eget felis [@lorem-ipsum-2017]. Turpis tincidunt id aliquet risus. Nulla aliquet porttitor lacus luctus accumsan tortor. Id venenatis a condimentum vitae sapien. Pellentesque diam volutpat commodo sed egestas egestas fringilla phasellus faucibus. Maecenas sed enim ut sem viverra aliquet. Lacus sed viverra tellus in hac habitasse. Volutpat maecenas volutpat blandit aliquam etiam erat velit. Quis commodo odio aenean sed. Vitae justo eget magna fermentum. Fames ac turpis egestas maecenas.
+
+### Eget est lorem ipsum
+
+Tincidunt tortor aliquam nulla facilisi cras. Id leo in vitae turpis massa. Aenean et tortor at risus viverra adipiscing. Massa tempor nec feugiat nisl pretium fusce id velit. Donec ac odio tempor orci dapibus ultrices in. Tincidunt id aliquet risus feugiat in ante metus dictum at. Nibh sit amet commodo nulla facilisi nullam vehicula ipsum a. Amet consectetur adipiscing elit duis. Morbi leo urna molestie at elementum [@lorem-ipsum-2017]. Sed id semper risus in hendrerit gravida rutrum quisque. Eget est lorem ipsum dolor sit amet consectetur adipiscing elit. Vel pretium lectus quam id leo in vitae. Sed elementum tempus egestas sed sed risus. Donec pretium vulputate sapien nec sagittis aliquam malesuada. Tellus mauris a diam maecenas sed enim ut sem. Libero volutpat sed cras ornare arcu dui vivamus arcu felis. Facilisis sed odio morbi quis commodo [@lorem-ipsum-2017]. Condimentum lacinia quis vel eros donec ac odio tempor. Nisi porta lorem mollis aliquam ut porttitor leo a.
+
+## Methods
+
+### Tellus mauris a diam maecenas sed enim
+
+Sit amet nisl suscipit adipiscing bibendum est ultricies integer. Blandit libero volutpat sed cras. Ultrices mi tempus imperdiet nulla malesuada pellentesque elit eget. Ac auctor augue mauris augue neque gravida. Semper auctor neque vitae tempus quam. Scelerisque felis imperdiet proin fermentum. Amet luctus venenatis lectus magna fringilla urna porttitor rhoncus. Justo eget magna fermentum iaculis eu non diam. Aliquam faucibus purus in massa tempor nec feugiat. At risus viverra adipiscing at in. Dui ut ornare lectus sit amet est placerat in. Lectus proin nibh nisl condimentum id venenatis a condimentum. Ornare arcu odio ut sem nulla pharetra.
+
+1. Yes
+2. No
+3. Maybe
+
+## Results
+
+Velit scelerisque in dictum non consectetur. Pellentesque habitant morbi tristique senectus et. Et ligula ullamcorper malesuada proin. At volutpat diam ut venenatis tellus in. Nisl rhoncus mattis rhoncus urna neque viverra justo nec. Euismod elementum nisi quis eleifend quam adipiscing vitae (Table \@ref(tab:table-1-summary)). Nunc congue nisi vitae suscipit tellus. Consectetur libero id faucibus nisl. In cursus turpis massa tincidunt dui. Id semper risus in hendrerit gravida rutrum. Diam vel quam elementum pulvinar etiam non. Sit amet cursus sit amet dictum sit amet. Integer malesuada nunc vel risus commodo viverra maecenas accumsan lacus. Leo duis ut diam quam nulla (Table \@ref(tab:table-2-summary)). Quam quisque id diam vel quam elementum pulvinar etiam. Magnis dis parturient montes nascetur. Auctor urna nunc id cursus metus aliquam eleifend mi in. Id leo in vitae turpis massa sed. Fringilla est ullamcorper eget nulla facilisi etiam. Ipsum dolor sit amet consectetur adipiscing elit pellentesque habitant.
+
+## Discussion
+
+Duis ut diam quam nulla. Urna condimentum mattis pellentesque id nibh tortor id. Habitant morbi tristique senectus et netus et malesuada fames. Mauris in aliquam sem fringilla ut morbi tincidunt augue interdum. Nascetur ridiculus mus mauris vitae. Sapien pellentesque habitant morbi tristique. Sed libero enim sed faucibus turpis in eu. Dui sapien eget mi proin sed libero enim sed. Maecenas ultricies mi eget mauris pharetra et. Pellentesque diam volutpat commodo sed egestas. Risus nec feugiat in fermentum posuere urna nec tincidunt praesent. Etiam erat velit scelerisque in dictum non. Facilisi etiam dignissim diam quis enim lobortis scelerisque fermentum dui. Facilisi cras fermentum odio eu feugiat pretium nibh.
+
+<!--## References
+
+\linespread{1}\selectfont
+
+<div id="refs"></div> -->
+
+\clearpage
+
+\linespread{1}\selectfont
+
+## Tables
+
+Table: (\#tab:table-1-summary)Another table. Check it out.
+
+```{r table-1-summary, fig.cap = '(tab:table-1-summary)', message=F, warnings=F, results='asis', echo=F}
+tabl <- " 
+-----------------------------------------------------------------------------------  
+Contaminant - Instrument    Units      Above      Above    Below        Below
+                                       Off Peak   Peak     Off Peak     Peak
+-------------------------- ---------- ---------- -------- ------------ ------------
+CO - Q-Trak *               ppm        0.031      0.094    0.037         **0.121** 
+
+CO~2~ - Q-Trak              ppm        484        559      531           **622**
+
+-----------------------------------------------------------------------------------
+"
+cat(tabl) 
+```
+
+Table: (\#tab:table-2-summary)Last table. Enter additional text here.
+
+```{r table-2-summary, fig.cap = '(tab:table-2-summary)', message=F, warnings=F, results='asis', echo=F}
+tabl <- " 
+-----------------------------------------------------------  
+Compound           Wavelength (µm)   Wavenumber (cm^-1^)
+----------------- ----------------- ---------------------- 
+C~2~H~4~F~2~          3.3                    3030
+
+                      7.3                    1370
+
+                      8.8                    1140
+
+                     10.8                    930
+
+TCE                  4.2                     2380
+                    
+                     10.8                    930
+
+                     11.8                    847
+
+                     12.8                    780
+ 
+MEK (MIBK proxy)     5.7                     1750
+
+                     7.3                     1370
+
+                     8.5                     1180
+
+Toluene              3.3                     3030
+
+                     4.2                     2380
+
+                     6.6                     1520
+
+                     13.7                    730
+----------------------------------------------------------- 
+"
+cat(tabl) 
+```

@@ -1,0 +1,125 @@
+---
+title: 'Chapter 1: Introduction'
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output:
+  bookdown::pdf_document2:
+    number_sections: yes
+    toc: yes
+geometry: margin = 1in
+fontsize: 11pt
+bibliography: thesis-references.bib
+csl: science-modified1.csl
+link-citations: true
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+\linespread{1.6}\selectfont
+\setlength{\parindent}{1em}
+
+# Introduction
+
+## Lorem ipsum dolor sit amet
+
+### Consectetur adipiscing elit, sed do eiusmod tempor
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lectus urna duis convallis convallis tellus. Vitae auctor eu augue ut lectus arcu bibendum at varius. Lectus nulla at volutpat diam ut venenatis tellus. Adipiscing vitae 64\% ($\frac{43}{67}$) proin sagittis nisl rhoncus mattis rhoncus urna. Nunc lobortis mattis aliquam faucibus purus in massa tempor nec. Amet porttitor eget dolor morbi non arcu risus. Arcu risus quis varius quam quisque. Ultrices eros in cursus turpis massa tincidunt dui ut. Faucibus et molestie ac feugiat sed lectus vestibulum. Porttitor rhoncus dolor purus non enim praesent elementum facilisis leo. Eget mauris pharetra et ultrices neque ornare aenean euismod elementum. Interdum varius sit amet mattis vulputate. Pretium vulputate sapien nec sagittis. Scelerisque mauris pellentesque pulvinar pellentesque.
+
+### Labore et dolore magna aliqua
+
+Egestas sed sed risus pretium quam vulputate dignissim suspendisse in. Amet tellus cras adipiscing enim eu turpis egestas pretium aenean. Rhoncus urna neque viverra justo nec. Mauris commodo quis imperdiet massa tincidunt nunc pulvinar. Malesuada nunc vel risus commodo viverra maecenas accumsan lacus vel. Ut aliquam purus sit amet. Porttitor leo a diam sollicitudin tempor id. Urna cursus eget nunc scelerisque. Placerat duis ultricies lacus sed. Feugiat scelerisque varius morbi enim nunc faucibus a pellentesque.
+
+### Tempus urna et pharetra pharetra
+
+Viverra vitae congue eu consequat ac felis donec et odio. Feugiat in fermentum posuere urna nec tincidunt. Mauris ultrices eros in cursus turpis. Nec feugiat nisl pretium fusce id velit ut tortor. Ullamcorper malesuada proin libero nunc. Tortor id aliquet lectus proin nibh nisl condimentum. Lectus mauris ultrices eros in cursus. Sit amet mauris commodo quis imperdiet massa tincidunt nunc pulvinar. Vulputate mi sit amet mauris commodo quis imperdiet massa. Et malesuada fames ac turpis egestas sed tempus urna. Ornare quam viverra orci sagittis. Ornare quam viverra orci sagittis eu volutpat. Turpis massa tincidunt dui ut. Mauris nunc congue nisi vitae. Hac habitasse platea dictumst quisque sagittis purus sit amet. Dui id ornare arcu odio ut sem nulla. Arcu cursus euismod quis viverra nibh cras pulvinar. Accumsan tortor posuere ac ut consequat semper viverra. Morbi quis commodo odio aenean sed.
+
+### Malesuada nunc vel risus 
+
+Nunc eget lorem dolor sed. Eu tincidunt tortor aliquam nulla facilisi. Pulvinar pellentesque habitant morbi tristique senectus et netus et malesuada. Nulla malesuada pellentesque elit eget gravida cum. Pellentesque elit ullamcorper dignissim cras tincidunt lobortis feugiat vivamus at. Mi in nulla posuere sollicitudin aliquam ultrices sagittis. Eu augue ut lectus arcu bibendum at varius vel pharetra. Aenean pharetra magna ac placerat vestibulum lectus. Tincidunt praesent semper feugiat nibh sed pulvinar. Purus ut faucibus pulvinar elementum integer enim neque volutpat ac. Ut eu sem integer vitae justo eget magna fermentum. Feugiat sed lectus vestibulum mattis ullamcorper velit sed.
+
+## Ut aliquam purus sit amet
+
+### Hac habitasse platea dictumst 
+
+Sapien eget mi proin sed libero enim sed faucibus. Tortor at auctor urna nunc id. Turpis egestas integer eget aliquet nibh praesent. Id ornare arcu odio ut sem nulla pharetra diam sit. Viverra aliquet eget sit amet tellus cras. Nascetur ridiculus mus mauris vitae ultricies leo integer. Cras fermentum odio eu feugiat pretium nibh ipsum. Sapien pellentesque habitant morbi tristique senectus. Aliquam vestibulum morbi blandit cursus risus at. Blandit cursus risus at ultrices mi tempus imperdiet nulla. Id aliquet lectus proin nibh. Urna condimentum mattis pellentesque id. Ornare massa eget egestas purus. Montes nascetur ridiculus mus mauris. Ipsum consequat nisl vel pretium lectus quam. Quam adipiscing vitae proin sagittis nisl rhoncus. Quis lectus nulla at volutpat diam ut venenatis tellus.
+
+### Vel fringilla est ullamcorper eget nulla facilisi etiam
+
+Ullamcorper sit amet risus nullam eget felis eget nunc lobortis. Id aliquet lectus proin nibh nisl condimentum. Lorem dolor sed viverra ipsum nunc aliquet bibendum enim. Dolor morbi non arcu risus. Orci eu lobortis elementum nibh tellus. Egestas dui id ornare arcu odio ut. Nibh venenatis cras sed felis eget velit aliquet sagittis. Rhoncus est pellentesque elit ullamcorper dignissim cras tincidunt. Suspendisse in est ante in. Vitae proin sagittis nisl rhoncus. Massa enim nec dui nunc. Tellus mauris a diam maecenas sed enim. Massa id neque aliquam vestibulum morbi blandit cursus risus at. Mauris sit amet massa vitae tortor condimentum lacinia. Ultricies integer quis auctor elit sed vulputate mi sit amet.
+
+Nisi quis eleifend quam adipiscing vitae proin. Imperdiet sed euismod nisi porta lorem mollis aliquam ut porttitor. Vestibulum lorem sed risus ultricies tristique. Interdum varius sit amet mattis vulputate enim. Egestas egestas fringilla phasellus faucibus scelerisque eleifend donec. Nibh ipsum consequat nisl vel pretium. Interdum velit euismod in pellentesque massa. Gravida quis blandit turpis cursus in hac habitasse platea. Elementum curabitur vitae nunc sed velit dignissim sodales. Laoreet sit amet cursus sit amet dictum sit amet. Dignissim diam quis enim lobortis scelerisque fermentum dui. Non curabitur gravida arcu ac tortor. Dui accumsan sit amet nulla. Ut diam quam nulla porttitor massa id neque aliquam. Morbi tincidunt augue interdum velit euismod in.
+
+\linespread{1}\selectfont
+
+* One star: 25-49 \% 
+* Two stars: 50-74 \% 
+* Three stars: 75-89 \% 
+* Four stars: 90+ \%
+
+\linespread{1.6}\selectfont
+
+Facilisis leo vel fringilla est. Eu volutpat odio facilisis mauris sit amet. Nisi quis eleifend quam adipiscing vitae. Consequat ac felis donec et odio pellentesque diam volutpat commodo. Cras pulvinar mattis nunc sed blandit libero volutpat sed. Sed augue lacus viverra vitae congue eu consequat. At erat pellentesque adipiscing commodo.
+
+### Ipsum faucibus vitae aliquet nec ullamcorper
+
+Facilisis leo vel fringilla est. Eu volutpat odio facilisis mauris sit amet. Nisi quis eleifend quam adipiscing vitae. Consequat ac felis donec et odio pellentesque diam volutpat commodo. Cras pulvinar mattis nunc sed blandit libero volutpat sed. Sed augue lacus viverra vitae congue eu consequat. 
+
+At erat pellentesque adipiscing commodo. Purus gravida quis blandit turpis cursus in hac. Semper auctor neque vitae tempus quam pellentesque nec. Ipsum faucibus vitae aliquet nec ullamcorper sit amet risus. Feugiat nisl pretium fusce id. Tortor condimentum lacinia quis vel eros donec ac odio tempor. Velit ut tortor pretium viverra suspendisse potenti nullam ac. Enim ut sem viverra aliquet eget.
+
+\linespread{1}\selectfont
+
+> "Odio facilisis mauris sit amet massa vitae. Ac ut consequat semper viverra. Faucibus vitae aliquet nec ullamcorper. Adipiscing at in tellus integer feugiat. Lacinia quis vel eros donec ac odio. Eget nunc lobortis mattis aliquam faucibus. Amet nisl purus in mollis. Quam id leo in vitae turpis. Egestas tellus rutrum tellus pellentesque. Nibh mauris cursus mattis molestie a iaculis at erat pellentesque. Varius sit amet mattis vulputate enim nulla aliquet porttitor lacus. Nunc vel risus commodo viverra. Enim diam vulputate ut pharetra. Tristique nulla aliquet enim tortor." --*Book Title p. 123* [@ramachandran-2005]
+
+\linespread{1.6}\selectfont
+
+Odio facilisis mauris sit amet massa vitae. Ac ut consequat semper viverra. Faucibus vitae aliquet nec ullamcorper. Adipiscing at in tellus integer feugiat. Lacinia quis vel eros donec ac odio. Eget nunc lobortis mattis aliquam faucibus. Amet nisl purus in mollis. Quam id leo in vitae turpis. Egestas tellus rutrum tellus pellentesque. Nibh mauris cursus mattis molestie a iaculis at erat pellentesque. Varius sit amet mattis vulputate enim nulla aliquet porttitor lacus. Nunc vel risus commodo viverra. Enim diam vulputate ut pharetra. Tristique nulla aliquet enim tortor.
+
+Sed risus pretium quam vulputate dignissim. Posuere morbi leo urna molestie. Consequat interdum varius sit amet mattis vulputate enim nulla. Leo vel orci porta non pulvinar. Est lorem ipsum dolor sit amet consectetur adipiscing elit. Gravida arcu ac tortor dignissim convallis aenean et tortor. Imperdiet nulla malesuada pellentesque elit eget gravida cum sociis. Aliquam purus sit amet luctus venenatis lectus magna fringilla urna. Sit amet tellus cras adipiscing. Vivamus arcu felis bibendum ut tristique et. Convallis convallis tellus id interdum. Sapien pellentesque habitant morbi tristique senectus et netus et malesuada. Lectus sit amet est placerat. Posuere urna nec tincidunt praesent. Est pellentesque elit ullamcorper dignissim cras tincidunt lobortis.
+
+\newpage
+
+## Study aims
+
+This study seeks to identify ways to become a superhero. The dissertation is organized according to the following specific aims:
+
+\linespread{1}\selectfont
+
+* __Chapter 2: Establish photo journalism career__
+
+    + Sub-aim 1
+    
+    + Sub-aim 2
+    
+    + Sub-aim 3
+
+* __Chapter 3: Evaluate webbing fluid materials__
+
+    + Sub-aim 1
+    
+    + Sub-aim 2
+
+* __Chapter 4: Assess crime-fighting abilities__
+
+    + Sub-aim 1
+
+    + Sub-aim 2
+    
+* __Chapter 5: Summary of findings and conclusions__
+
+<!--## References
+
+\linespread{1}\selectfont
+
+<div id="refs"></div>
+
+-->

@@ -1,0 +1,52 @@
+---
+output: pdf_document
+---
+
+\linespread{1}\selectfont
+
+\vspace*{1.75 cm}
+
+\begin{centering}
+
+\Large
+On Preventing Crime in New York City: \break
+Photo Journalism and Web-based Super Powers
+
+\vspace{1.75 cm}
+
+\normalsize
+Peter Parker
+
+\vspace{1.75 cm}
+
+\normalsize
+A dissertation submitted in partial fulfillment \break
+of the requirements for the degree of
+
+\vspace{1 cm}
+
+Doctor of Philosophy
+
+\vspace{1 cm}
+
+University of Washington
+
+2017
+
+\vspace{1 cm}
+
+Reading Committee:
+
+Jane J. Doe, Chair \break
+John L. Doe \break
+Stan Lee \break
+
+\vspace{1 cm}
+
+Program Authorized to Offer Degree: \break
+Department of Environmental and Occupational Health Sciences
+
+\end{centering}
+
+\linespread{1.6}\selectfont
+

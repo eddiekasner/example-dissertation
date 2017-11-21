@@ -1,0 +1,8 @@
+---
+output: bookdown::pdf_document2
+---
+
+\linespread{1}\selectfont
+\setlength{\parindent}{0em}
+
+Peter Parker was born and raised in Queens, New York. He is a science nerd and a photographer who lived with his Uncle Ben and Aunt May and later became a superhero. Maecenas volutpat blandit aliquam etiam erat. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum. Turpis egestas maecenas pharetra convallis posuere morbi leo. In eu mi bibendum neque egestas congue quisque egestas. Pellentesque nec nam aliquam sem et. Sit amet purus gravida quis blandit turpis cursus in hac. Bibendum est ultricies integer quis auctor elit sed vulputate mi. Pretium fusce id velit ut tortor pretium viverra suspendisse. Ultrices eros in cursus turpis. Consectetur adipiscing elit duis tristique sollicitudin nibh sit. Aliquam vestibulum morbi blandit cursus risus at ultrices. Arcu dui vivamus arcu felis bibendum ut tristique et. Cursus vitae congue mauris rhoncus aenean. Risus sed vulputate odio ut enim.

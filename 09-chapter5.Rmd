@@ -1,0 +1,31 @@
+---
+title: 'Chapter 5: Conclusions'
+date: '`r format(Sys.Date(), "%d %B %Y")`'
+output:
+  bookdown::pdf_document2:
+    number_sections: yes
+    toc: no
+geometry: margin = 1in
+fontsize: 11pt
+bibliography: thesis-references.bib
+csl: science-modified1.csl
+link-citations: true
+linkcolor: blue
+urlcolor: blue
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \DeclareMathOperator{\logit}{logit}
+---
+
+\linespread{1.6}\selectfont
+
+# Conclusions
+
+Here are some conclusions. Some references were particularly helpful [@r-ggplot; @ramachandran-2005]. Maecenas volutpat blandit aliquam etiam erat. Pharetra vel turpis nunc eget lorem dolor sed viverra ipsum. Turpis egestas maecenas pharetra convallis posuere morbi leo. In eu mi bibendum neque egestas congue quisque egestas. Pellentesque nec nam aliquam sem et. Sit amet purus gravida quis blandit turpis cursus in hac. Bibendum est ultricies integer quis auctor elit sed vulputate mi. Pretium fusce id velit ut tortor pretium viverra suspendisse. Ultrices eros in cursus turpis. Consectetur adipiscing elit duis tristique sollicitudin nibh sit. Aliquam vestibulum morbi blandit cursus risus at ultrices. Arcu dui vivamus arcu felis bibendum ut tristique et. Cursus vitae congue mauris rhoncus aenean. Risus sed vulputate odio ut enim.

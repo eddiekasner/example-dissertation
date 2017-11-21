@@ -1,0 +1,57 @@
+---
+output:
+  bookdown::pdf_document2:
+geometry: margin = 1in
+fontsize: 11pt
+header-includes:
+- \usepackage{placeins}
+- \usepackage{setspace}
+- \usepackage{chngcntr}
+- \usepackage{microtype}
+- \counterwithin{figure}{section}
+- \counterwithin{table}{section}
+- \usepackage{float}
+- \usepackage{amsmath}
+- \renewcommand{\contentsname}{}
+---
+
+\linespread{1}\selectfont
+
+\begin{centering}
+
+\normalsize
+
+University of Washington
+
+\vspace{0.25 cm}
+
+{\bf Abstract}
+
+\vspace{0.25 cm}
+
+On Preventing Crime in New York City: \break
+Photo Journalism and Web-based Super Powers
+
+\vspace{0.25 cm}
+
+Peter Parker
+
+\vspace{0.25 cm}
+
+Chair of the Supervisory Committee:\break
+Professor Jane K. Doe\break
+Department of Environmental and Occupational Health Sciences
+
+\end{centering}
+
+\vspace{1 cm}
+
+\linespread{1}\selectfont
+
+\setlength{\parindent}{0em}
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Augue eget arcu dictum varius duis. Duis tristique sollicitudin nibh sit amet commodo. Morbi tristique senectus et netus et malesuada fames ac. Venenatis lectus magna fringilla urna. Odio eu feugiat pretium nibh ipsum consequat nisl vel. Aliquet nibh praesent tristique magna sit amet purus gravida. Massa placerat duis ultricies lacus. Sodales neque sodales ut etiam. Diam donec adipiscing tristique risus. Duis ut diam quam nulla porttitor. Neque sodales ut etiam sit amet nisl.
+
+Et tortor at risus viverra adipiscing. Leo integer malesuada nunc vel risus commodo viverra maecenas accumsan. Tellus molestie nunc non blandit massa enim nec. Risus ultricies tristique nulla aliquet enim tortor at auctor. Vitae sapien pellentesque habitant morbi tristique senectus et netus et. Mattis aliquam faucibus purus in massa tempor nec feugiat nisl. Ac placerat vestibulum lectus mauris ultrices eros in cursus turpis. Vel risus commodo viverra maecenas accumsan lacus vel facilisis. Luctus venenatis lectus magna fringilla. Ullamcorper eget nulla facilisi etiam dignissim diam quis enim. Arcu odio ut sem nulla pharetra diam.
+
+Lacus laoreet non curabitur gravida arcu ac tortor. Semper auctor neque vitae tempus quam pellentesque nec nam. Volutpat diam ut venenatis tellus in metus. Massa tempor nec feugiat nisl pretium. Id leo in vitae turpis massa sed elementum tempus. Est ante in nibh mauris cursus. In ornare quam viverra orci sagittis eu volutpat. Arcu cursus vitae congue mauris rhoncus aenean vel. Fusce id velit ut tortor. Ut tellus elementum sagittis vitae. Iaculis nunc sed augue lacus. Est ultricies integer quis auctor elit sed vulputate.
