@@ -118,48 +118,6 @@ theme_BASIC <- function(base_size=11) {
 
 ```
 
-```{r load.am.asd.gm.gsd.function.ch3, include=F}
-# Write and use GM, GSD, AM, ASD functions
-
-## No error handling
-
-gm<-function(x){
-    rslt<-exp(mean(log(x))) 
-    return(rslt)
-    }
-
-gsd<-function(x){
-    rslt<-exp(sqrt(var(log(x))))
-    return(rslt)
-    }
-
-## Error handling
-
-gm_eh<-function(x){
-    if(sum(is.na(x))>0)
-    {return(NA)}
-    if(sum(!is.finite(log(x)))==0)
-    {rslt<-exp(mean(log(x)))} # problem if x=0 -> log
-    else{rslt<-Inf}
-    return(rslt)
-    }
-
-gsd_eh<-function(x){
-    if(sum(is.na(x))>0)
-    {return(NA)}
-    if(sum(!is.finite(log(x)))==0)
-    {rslt<-exp(sqrt(var(log(x))))} # problem if x=0 -> log
-    else{rslt<-Inf}
-    return(rslt)
-    }
-
-n.am.asd.gm.gsd<-function(dta){
-    x<-subset(dta, !is.na(dta))
-    return(c( N=length(x),AM=mean(x),ASD=sd(x),GM=gm_eh(x),GSD=gsd_eh(x) ))
-    }
-
-```
-
 ```{r upload.and.clean.data.ch3, include=F}
 
 ## Read in integrated sampling data from .csv file
