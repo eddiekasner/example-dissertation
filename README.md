@@ -8,4 +8,4 @@ References: Rosanna's Research, Yihui Xie, Brian High, Boris Reiss
 
 License (link)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/AP_nU9jd0mk" frameborder="0" gesture="media" allowfullscreen></iframe>
+Video: https://youtu.be/AP_nU9jd0mk
