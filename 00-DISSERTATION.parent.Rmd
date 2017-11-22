@@ -33,22 +33,13 @@ knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', echo=FALSE, 
 
 ```{r load.packages, include=F}
 
-## Source: https://www.r-bloggers.com/loading-andor-installing-packages-programmatically/
+# Load pacman, installing as necessary.
+my_repo <- 'http://cran.r-project.org'
+if (!require("pacman")) {install.packages("pacman", repos = my_repo)}
 
-is_installed <- function(mypkg) is.element(mypkg, installed.packages()[,1])
-load_or_install<-function(package_names)
-{
-  for(package_name in package_names)
-  {
-    if(!is_installed(package_name))
-    {
-       install.packages(package_name,repos='http://lib.stat.cmu.edu/R/CRAN')
-    }
-    library(package_name,character.only=TRUE,quietly=TRUE,verbose=FALSE)
-  }
-}
-
-load_or_install(c('knitr','fitdistrplus','foreach','ggplot2','scales','proto','Cairo','doBy','plyr','dplyr','readxl','lattice','GGally','tidyverse','tibble', 'moments', 'nortest', 'e1071', 'Hmisc', 'NADA', 'ggthemes','STAND', 'scatterplot3d', 'plotly', 'scales', 'beeswarm', 'xtable', 'pander', 'matrixStats', 'ztable', 'anytime', 'reshape2', 'lubridate', 'devtools', 'DT', 'xtable', 'gridExtra', 'grid', 'ggthemes', 'captioner', 'png', 'bookdown'))
+# Load the other packages, installing as needed.
+pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png, 
+               grid, gridExtra, beeswarm)
 
 ## Source: https://github.com/koundy/ggplot_theme_Publication/blob/master/R/ggplot_theme_Publication.R
 

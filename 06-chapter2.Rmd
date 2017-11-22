@@ -39,22 +39,13 @@ knitr::opts_chunk$set(echo=F,
 
 ```{r load.packages.ch2, include=F}
 
-is_installed <- function(mypkg) is.element(mypkg, installed.packages()[,1])
-load_or_install<-function(package_names)
-{
-  for(package_name in package_names)
-  {
-    if(!is_installed(package_name))
-    {
-       install.packages(package_name,repos='http://lib.stat.cmu.edu/R/CRAN')
-    }
-    library(package_name,character.only=TRUE,quietly=TRUE,verbose=FALSE)
-  }
-}
+# Load pacman, installing as necessary.
+my_repo <- 'http://cran.r-project.org'
+if (!require("pacman")) {install.packages("pacman", repos = my_repo)}
 
-load_or_install(c('fitdistrplus','foreach','ggplot2','scales','proto','Cairo','doBy','plyr','dplyr','readxl','lattice','GGally','tidyverse','tibble', 'moments', 'nortest', 'e1071', 'Hmisc', 'NADA', 'ggthemes','STAND', 'scatterplot3d', 'plotly', 'scales', 'beeswarm', 'gridExtra', 'lme4', 'lattice', 'reshape2', 'compiler', 'parallel', 'boot', 'effects', 'stargazer', 'lubridate', 'anytime', 'chron','RColorBrewer','circular','splitstackshape','multcomp','pander','xtable','knitr'))
-
-## https://www.r-bloggers.com/loading-andor-installing-packages-programmatically/
+# Load the other packages, installing as needed.
+pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png, 
+               grid, gridExtra, beeswarm)
 
 ```
 
@@ -172,10 +163,10 @@ n.am.asd.gm.gsd<-function(dta){
 ```{r upload.and.clean.data.ch2, include=F}
 
 ## Read in integrated sampling data from .csv file
-bc    <- read.csv('/home/ejkasner/example.dissertation/Data/bc.28feb2017.csv', header=T)
-dylos <- read.csv('/home/ejkasner/example.dissertation/Data/dylos.28feb2017.csv', header=T)
-qtrak <- read.csv('/home/ejkasner/example.dissertation/Data/qtrak.28feb2017.csv', header=T)
-nano  <- read.csv('/home/ejkasner/example.dissertation/Data/nanoscan.28feb2017.csv', header=T)
+bc    <- read.csv('Data/bc.28feb2017.csv', header=T)
+dylos <- read.csv('Data/dylos.28feb2017.csv', header=T)
+qtrak <- read.csv('Data/qtrak.28feb2017.csv', header=T)
+nano  <- read.csv('Data/nanoscan.28feb2017.csv', header=T)
 
 ## Deal with time data
 bc$time         <- as.POSIXct(bc$time, format="%H:%M:%S")
@@ -491,7 +482,7 @@ cat(tabl)
 ```{r above-sampling, fig.cap='(ref:above-sampling)', fig.width=6, fig.height=6, echo=F}
 library(png)
 library(grid)
-img <- readPNG("/home/ejkasner/example.dissertation/Images/AboveSampling.png")
+img <- readPNG("Images/AboveSampling.png")
  grid.raster(img)
 ```
 
