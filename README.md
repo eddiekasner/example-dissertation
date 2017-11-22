@@ -1,8 +1,11 @@
-# This repo provides templates for anyone to write a dissertation or thesis using R markdown and knitr. 
+# Example Dissertation
 
-# Dependencies: knitr, bookdown, pdf creater (TeX)
+This repo provides templates for anyone to write a dissertation or thesis using R markdown and knitr. 
 
-# References: Rosanna's Research, Yihui Xie, Brian High, Boris Reiss
+Dependencies: knitr, bookdown, pdf creater (TeX)
 
-# License (link)
+References: Rosanna's Research, Yihui Xie, Brian High, Boris Reiss
 
+License (link)
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/AP_nU9jd0mk" frameborder="0" gesture="media" allowfullscreen></iframe>
