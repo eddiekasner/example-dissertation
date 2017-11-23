@@ -17,7 +17,7 @@ Dissertation, Thesis, or Project <br> with Knitr and Markdown
     + Citation style (.csl file)
     + R Studio (Knitr and Bookdown packages)
 3. Making it work for you (example)
-    + https://goo.gl/XMtGnT
+    + https://github.com/eddiekasner/example-dissertation
 
 Motivation
 ========================================================
