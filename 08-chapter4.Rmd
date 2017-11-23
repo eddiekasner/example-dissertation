@@ -82,7 +82,7 @@ Duis ut diam quam nulla. Urna condimentum mattis pellentesque id nibh tortor id.
 
 ## Tables
 
-Table: (\#tab:table-1-summary)Another table. Check it out.
+Table: (\#tab:table-1-summary)Another table.
 
 ```{r table-1-summary, fig.cap = '(tab:table-1-summary)', message=F, warnings=F, results='asis', echo=F}
 tabl <- " 

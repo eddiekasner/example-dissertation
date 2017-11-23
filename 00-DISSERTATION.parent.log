@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.30)  22 NOV 2017 23:11
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2017.8.30)  23 NOV 2017 00:10
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -987,12 +987,12 @@ less on input line 548.
 ] <Figs/above-sampling-1.pdf, id=428, 433.62pt x 326.21875pt>
 File: Figs/above-sampling-1.pdf Graphic file (type pdf)
 <use Figs/above-sampling-1.pdf>
-Package pdftex.def Info: Figs/above-sampling-1.pdf used on input line 970.
+Package pdftex.def Info: Figs/above-sampling-1.pdf used on input line 971.
 (pdftex.def)             Requested size: 433.63878pt x 326.23286pt.
 <Figs/below-sampling-1.pdf, id=429, 433.62pt x 326.21875pt>
 File: Figs/below-sampling-1.pdf Graphic file (type pdf)
 <use Figs/below-sampling-1.pdf>
-Package pdftex.def Info: Figs/below-sampling-1.pdf used on input line 981.
+Package pdftex.def Info: Figs/below-sampling-1.pdf used on input line 982.
 (pdftex.def)             Requested size: 433.63878pt x 326.23286pt.
 [12
 
@@ -1001,68 +1001,68 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.987 
+l.988 
        <./Figs/above-sampling-1.pdf>] <Figs/bc-boxplot-1.pdf, id=440, 692.5875p
 t x 683.55376pt>
 File: Figs/bc-boxplot-1.pdf Graphic file (type pdf)
 <use Figs/bc-boxplot-1.pdf>
-Package pdftex.def Info: Figs/bc-boxplot-1.pdf used on input line 992.
+Package pdftex.def Info: Figs/bc-boxplot-1.pdf used on input line 993.
 (pdftex.def)             Requested size: 469.76964pt x 463.64223pt.
 [13pdfTeX warning (ext4): destination with the same identifier (name{figure.2.2
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.998 
+l.999 
        <./Figs/below-sampling-1.pdf>] <Figs/dy-boxplot-1.pdf, id=452, 848.16875
 pt x 694.595pt>
 File: Figs/dy-boxplot-1.pdf Graphic file (type pdf)
 <use Figs/dy-boxplot-1.pdf>
-Package pdftex.def Info: Figs/dy-boxplot-1.pdf used on input line 1003.
+Package pdftex.def Info: Figs/dy-boxplot-1.pdf used on input line 1004.
 (pdftex.def)             Requested size: 469.75563pt x 384.6993pt.
 [14pdfTeX warning (ext4): destination with the same identifier (name{figure.2.3
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1009 
+l.1010 
         <./Figs/bc-boxplot-1.pdf>] <Figs/nn-boxplot-1.pdf, id=465, 848.16875pt 
 x 694.595pt>
 File: Figs/nn-boxplot-1.pdf Graphic file (type pdf)
 <use Figs/nn-boxplot-1.pdf>
-Package pdftex.def Info: Figs/nn-boxplot-1.pdf used on input line 1014.
+Package pdftex.def Info: Figs/nn-boxplot-1.pdf used on input line 1015.
 (pdftex.def)             Requested size: 469.75563pt x 384.6993pt.
 [15pdfTeX warning (ext4): destination with the same identifier (name{figure.2.4
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1020 
+l.1021 
         <./Figs/dy-boxplot-1.pdf>] <Figs/size-distribution-nn-plots-1.pdf, id=4
 78, 704.6325pt x 704.6325pt>
 File: Figs/size-distribution-nn-plots-1.pdf Graphic file (type pdf)
 <use Figs/size-distribution-nn-plots-1.pdf>
 Package pdftex.def Info: Figs/size-distribution-nn-plots-1.pdf used on input li
-ne 1025.
+ne 1026.
 (pdftex.def)             Requested size: 469.75745pt x 469.75745pt.
 [16pdfTeX warning (ext4): destination with the same identifier (name{figure.2.5
 }) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1031 
+l.1032 
         <./Figs/nn-boxplot-1.pdf>] [17pdfTeX warning (ext4): destination with t
 he same identifier (name{figure.2.6}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1032 \clearpage
+l.1033 \clearpage
                   <./Figs/size-distribution-nn-plots-1.pdf>] [18
 
 ]
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 1077.
+less on input line 1078.
 
 [19
 
@@ -1071,12 +1071,12 @@ less on input line 1077.
 ] <Figs/car-wt-mpg-1.pdf, id=572, 411.5375pt x 415.5525pt>
 File: Figs/car-wt-mpg-1.pdf Graphic file (type pdf)
 <use Figs/car-wt-mpg-1.pdf>
-Package pdftex.def Info: Figs/car-wt-mpg-1.pdf used on input line 1504.
+Package pdftex.def Info: Figs/car-wt-mpg-1.pdf used on input line 1505.
 (pdftex.def)             Requested size: 411.5365pt x 415.55148pt.
 <Figs/car-scatter-1.pdf, id=573, 423.5825pt x 423.5825pt>
 File: Figs/car-scatter-1.pdf Graphic file (type pdf)
 <use Figs/car-scatter-1.pdf>
-Package pdftex.def Info: Figs/car-scatter-1.pdf used on input line 1515.
+Package pdftex.def Info: Figs/car-scatter-1.pdf used on input line 1516.
 (pdftex.def)             Requested size: 423.59439pt x 423.59439pt.
 [27
 
@@ -1085,19 +1085,19 @@ has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1521 
+l.1522 
         <./Figs/car-wt-mpg-1.pdf>] [28pdfTeX warning (ext4): destination with t
 he same identifier (name{figure.3.2}) has been already used, duplicate ignored
 
 \AtBegShi@Output ...ipout \box \AtBeginShipoutBox 
                                                   \fi \fi 
-l.1522 \clearpage
+l.1523 \clearpage
                   <./Figs/car-scatter-1.pdf>] [29
 
 ]
 
 Package Fancyhdr Warning: \fancyhead's `E' option without twoside option is use
-less on input line 1548.
+less on input line 1549.
 
 [30
 
@@ -1154,7 +1154,7 @@ pfb></usr/share/texmf/fonts/type1/public/lm/lmmi8.pfb></usr/share/texmf/fonts/t
 ype1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pfb></us
 r/share/texmf/fonts/type1/public/lm/lmr8.pfb></usr/share/texmf/fonts/type1/publ
 ic/lm/lmri10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb>
-Output written on 00-DISSERTATION.parent.pdf (45 pages, 3432962 bytes).
+Output written on 00-DISSERTATION.parent.pdf (45 pages, 3433062 bytes).
 PDF statistics:
  745 PDF objects out of 1000 (max. 8388607)
  656 compressed objects within 7 object streams
