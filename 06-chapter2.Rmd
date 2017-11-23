@@ -53,6 +53,7 @@ pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png,
 
 ## Koundy's theme ####
 # Source: https://github.com/koundy/ggplot_theme_Publication/blob/master/R/ggplot_theme_Publication.R
+
 theme_HEI <- function(base_size=18) {
   library(grid)
   library(ggthemes)
@@ -75,7 +76,7 @@ theme_HEI <- function(base_size=18) {
           legend.position = "bottom",
           legend.direction = "horizontal",
           legend.key.size= unit(0.6, "cm"),
-          legend.margin = unit(0, "cm"),
+          legend.spacing = unit(0, "cm"),
           legend.title = element_blank(),
           plot.margin=unit(c(4,4,4,4),"mm"),
           strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
@@ -315,11 +316,11 @@ Varius quam quisque id diam vel quam elementum pulvinar. Congue quisque egestas 
 
 ### Vel orci porta non pulvinar neque laoreet
 
-Consequat mauris nunc congue nisi vitae. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Eget velit aliquet sagittis id consectetur purus. Tincidunt nunc pulvinar sapien et. Amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet. Egestas pretium aenean pharetra magna. Vestibulum rhoncus est pellentesque elit ullamcorper. Cras sed felis eget velit aliquet sagittis id consectetur purus. Turpis cursus in hac habitasse platea dictumst quisque sagittis. Sit amet risus nullam eget. Ipsum faucibus vitae aliquet nec ullamcorper sit. Scelerisque felis imperdiet proin fermentum leo vel. In hac habitasse platea dictumst quisque sagittis. Quam adipiscing vitae proin sagittis nisl. Mauris commodo quis imperdiet massa (Figure \@ref(fig:above-sampling)). Nulla pellentesque dignissim enim sit amet venenatis. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum. Sem viverra aliquet eget sit amet tellus cras.
+Consequat mauris nunc congue nisi vitae. Eleifend quam adipiscing vitae proin sagittis nisl rhoncus mattis rhoncus. Eget velit aliquet sagittis id consectetur purus. Tincidunt nunc pulvinar sapien et. Amet consectetur adipiscing elit duis tristique sollicitudin nibh sit amet. Egestas pretium aenean pharetra magna. Vestibulum rhoncus est pellentesque elit ullamcorper. Cras sed felis eget velit aliquet sagittis id consectetur purus. Turpis cursus in hac habitasse platea dictumst quisque sagittis. Sit amet risus nullam eget. Ipsum faucibus vitae aliquet nec ullamcorper sit. Scelerisque felis imperdiet proin fermentum leo vel. In hac habitasse platea dictumst quisque sagittis. Quam adipiscing vitae proin sagittis nisl. Mauris commodo quis imperdiet massa (Figure \@ref(fig:above-sampling)). Nulla pellentesque dignissim enim sit amet venenatis. Ante metus dictum at tempor commodo ullamcorper a lacus vestibulum (Figure \@ref(fig:below-sampling)). Sem viverra aliquet eget sit amet tellus cras.
 
 ### Diam ut venenatis tellus in metus
 
-Aenean et tortor at risus viverra adipiscing at in tellus (Figure \@ref(fig:bc-boxplot). Luctus venenatis lectus magna fringilla urna porttitor rhoncus. Amet mauris commodo quis imperdiet massa. Suspendisse interdum consectetur libero id. Diam ut venenatis tellus in metus. Faucibus purus in massa tempor nec feugiat nisl. Ullamcorper malesuada proin libero nunc consequat interdum varius sit amet ([Appendix A][Appendix A: Some Text Here]). Venenatis urna cursus eget nunc scelerisque viverra mauris. Sed pulvinar proin gravida hendrerit lectus a. Vulputate eu scelerisque felis imperdiet. Odio euismod lacinia at quis risus sed vulputate odio. Ac turpis egestas integer eget aliquet nibh praesent. Mattis aliquam faucibus purus in massa tempor nec feugiat ([Appendix B][Appendix B: Other Text Here]).
+Aenean et tortor at risus viverra adipiscing at in tellus (Figure \@ref(fig:bc-boxplot). Amet mauris commodo quis imperdiet massa (Figure \@ref(fig:dy-boxplot)). Luctus venenatis lectus magna fringilla urna porttitor rhoncus (Figure \@ref(fig:nn-boxplot)). Suspendisse interdum consectetur libero id. Diam ut venenatis tellus in metus. Faucibus purus in massa tempor nec feugiat nisl. Ullamcorper malesuada proin libero nunc consequat interdum varius sit amet ([Appendix A][Appendix A: Some Text Here]). Venenatis urna cursus eget nunc scelerisque viverra mauris. Sed pulvinar proin gravida hendrerit lectus a. Vulputate eu scelerisque felis imperdiet. Odio euismod lacinia at quis risus sed vulputate odio. Ac turpis egestas integer eget aliquet nibh praesent. Mattis aliquam faucibus purus in massa tempor nec feugiat ([Appendix B][Appendix B: Other Text Here]).
 
 #### Tincidunt eget nullam non nisi est sit amet 
 
@@ -360,9 +361,9 @@ Nisi vitae suscipit tellus mauris a diam. Mattis ullamcorper velit sed ullamcorp
 
 #### Et netus et malesuada fames
 
-Bibendum arcu vitae elementum curabitur. Augue lacus viverra vitae congue eu consequat ac felis donec (Table \@ref(tab:indiv-workrel)). 
+Bibendum arcu vitae elementum curabitur. Augue lacus viverra vitae congue eu consequat ac felis donec (Table \@ref(tab:summary-table)). 
 
-Fames ac turpis egestas sed tempus urna et pharetra pharetra. Nulla pellentesque dignissim enim sit (Table \@ref(tab:indiv-activity)).
+Fames ac turpis egestas sed tempus urna et pharetra pharetra. Nulla pellentesque dignissim enim sit (Table \@ref(tab:sampling-times-day1)).
 
 #### Aenean et tortor at risus viverra
 
@@ -386,56 +387,52 @@ Morbi tincidunt augue interdum velit euismod. Pulvinar mattis nunc sed blandit l
 
 ## Tables
 
-Table: (\#tab:indiv-workrel)Superheros who exercise more than once per week.
+Table: (\#tab:summary-table)This is it.
 
-```{r indiv-workrel, fig.cap = '(tab:indiv-workrel)', message=F, warnings=F, results='asis', echo=F}
+```{r summary-table, fig.cap = '(tab:summary-table)', message=F, warnings=F, results='asis', echo=F}
 tabl <- " 
------------------------------------------------------
-Weekly workout    Cardio          Strength-training
-                   n(%)              n(%)
---------------- ---------------- --------------------
-Yes               476 (69.0)       216 (67.5)
+-----------------------------------------------------------------------------------  
+Contaminant - Instrument    Units      Above      Above    Below        Below
+                                       Off Peak   Peak     Off Peak     Peak
+-------------------------- ---------- ---------- -------- ------------ ------------
+CO - Q-Trak *               ppm        0.031      0.094    0.037         **0.121** 
 
-No                214 (31.0)       104 (32.5)
+CO~2~ - Q-Trak              ppm        484        559      531           **622**
 
-Total             690 (100)        320 (100)
------------------------------------------------------
+BC - MicroAeth              fg/cm^3^   2,940      6,280    **16,300**    5,760
 
+PM - Nanos (12-365 nm)      #/cm^3^    23,990     27,080   **37,860**    22,190
+
+PM - Dylos (0.5-10 µm)      #/cm^3^    11.04      13.00    12.78         **14.70**
+-----------------------------------------------------------------------------------
 "
 cat(tabl) 
 ```
 
-Table: (\#tab:indiv-activity)Activity at time of crime. (*) Some footnote. (\*\*) Another footnote.
+Table: (\#tab:sampling-times-day1)Traffic at time of crime. (*) Some footnote. (\*\*) Another footnote.
 
-```{r indiv-activity, fig.cap = '(tab:indiv-activity)', message=F, warnings=F, results='asis', echo=F}
+```{r sampling-times-day1, fig.cap = '(tab:sampling-times-day1)', message=F, warnings=F, results='asis', echo=F}
 tabl <- " 
----------------------------------------------------------------------------------
-Activity at time of crime                            All crops      Tree fruit 
-                                                         n(%)           n(%)
---------------------------------------------------- -------------- --------------
-Bibendum enim facilisis*                              467 (67.7)     210 (65.6)
+---------------------------------------------------
+Traffic level     Date           Start      Stop          
+---------------- -------------- ---------  --------
+Above Off Peak    28 Feb 2017     12:50     13:20
 
-Malesuada fames ac turpis                             129 (18.7)      75 (23.4)
+Below Off Peak    28 Feb 2017     13:33     14:03
 
-Pretium vulputate sapien nec sagittis                  83 (12.0)      27 (8.4)
+Above Peak*       28 Feb 2017     15:31     16:01
 
-Enim sit amet venenatis urna**                          8 (1.2)       5 (1.6)
-
-Fringilla est ullamcorper                               3 (0.4)       3 (0.9)
-
-Total                                                 690 (100)      320 (100)
----------------------------------------------------------------------------------
-
+Below Peak**      28 Feb 2017     16:10     16:40
+---------------------------------------------------  
 "
 cat(tabl) 
-
 ```
 
 \clearpage
 
 ## Figures
 
-(ref:above-sampling) Caption for above ground sampling image. 
+(ref:above-sampling) Above ground sampling image. 
 
 ```{r above-sampling, fig.cap='(ref:above-sampling)', fig.width=6, fig.height=6, echo=F}
 library(png)
@@ -444,7 +441,16 @@ img <- readPNG("Images/AboveSampling.png")
  grid.raster(img)
 ```
 
-(ref:bc-boxplot) Caption for box plot of black carbon.
+(ref:below-sampling) Below ground sampling image. 
+
+```{r below-sampling, fig.cap='(ref:below-sampling)', fig.width=6, fig.height=6, echo=F}
+library(png)
+library(grid)
+img <- readPNG("Images/BelowSampling1.png")
+ grid.raster(img)
+```
+
+(ref:bc-boxplot) Box plot of black carbon.
 
 ```{r bc-boxplot, fig.cap='(ref:bc-boxplot)', fig.width=10, fig.height=10, fig.align="center"}
 
@@ -454,6 +460,26 @@ boxplot(value ~ location.period, data = bc.long, outline = FALSE, main = 'BC Mon
 beeswarm(value ~ location.period, data = bc.long, method='center', pwcol = day, pch = 16, add = TRUE) 
 
 legend('topleft',legend=c('Day 1','Day 2'), pch=16, col=1:2, cex=1.1, pt.cex = 1) 
+
+```
+
+(ref:dy-boxplot) Box plot of Dylos particle sizer.
+
+```{r dy-boxplot, fig.cap='(ref:dy-boxplot)', cache=F, fig.height=10}
+
+par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
+
+ggplot(dy.long, aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Dylos Particle Monitoring", x="Bin Size (µm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('0.5-1.0','1.0-2.5','2.5-10.0','>10.0')) + theme_HEI(16)
+
+```
+
+(ref:nn-boxplot) Box plot of nanoscan particle sizer.
+
+```{r nn-boxplot, fig.cap='(ref:nn-boxplot)', cache=F, fig.height=10}
+
+par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
+
+ggplot(nn.long[nn.long$variable!='total.conc.num.cm3',], aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Nanoscan Particle Monitoring", x="Bin Size (nm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('11.5','15.4','20.5','27.4','36.5','48.7','64.9','86.6','115.5','154','205.4','273.8','365.2')) + scale_y_continuous(breaks=seq(0, 15000, 2000)) + theme_HEI(16)
 
 ```
 
@@ -471,13 +497,13 @@ nn.abv.peak.dist<-aggregate(value~variable,nn.long[nn.long$location.period=='abo
 
 nn.blw.peak.dist<-aggregate(value~variable,nn.long[nn.long$location.period=='below peak',],FUN= function(x)exp(mean(log(x))))
 
-a <- ggplot(nn.abv.ofpk.dist[nn.abv.ofpk.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Above Off Peak", x="", y="Particles / cm3") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(16)
+a <- ggplot(nn.abv.ofpk.dist[nn.abv.ofpk.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Above Off Peak", x="", y="Particles / cm3") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(14)
 
-b <- ggplot(nn.blw.ofpk.dist[nn.blw.ofpk.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Below Off Peak", x="", y="") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(16)
+b <- ggplot(nn.blw.ofpk.dist[nn.blw.ofpk.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Below Off Peak", x="", y="") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(14)
 
-c <- ggplot(nn.abv.peak.dist[nn.abv.peak.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Above Peak", x="Particle Size (nm)", y="Particles / cm3") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(16)
+c <- ggplot(nn.abv.peak.dist[nn.abv.peak.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Above Peak", x="Particle Size (nm)", y="Particles / cm3") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(14)
 
-d <- ggplot(nn.blw.peak.dist[nn.blw.peak.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Below Peak", x="Particle Size (nm)", y="") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(16)
+d <- ggplot(nn.blw.peak.dist[nn.blw.peak.dist$variable!='total.conc.num.cm3',], aes(x=variable, y=value)) + geom_bar(stat="identity") + scale_y_continuous(limits = c(0, 6000)) + scale_x_discrete(labels=lab) + labs(title = "Below Peak", x="Particle Size (nm)", y="") + theme(plot.title = element_text(hjust = 0.5)) + theme_HEI(14)
 
 
 grid.arrange(a, b, c, d, nrow=2)

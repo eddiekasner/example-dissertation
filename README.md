@@ -8,6 +8,6 @@ For more resources, please visit:
 
 Dependencies: knitr, bookdown, pdf creator (TeX)
 
-Collaborators: Brian High, Boris Reiss
+Collaborators: Brian High
 
 License (link)

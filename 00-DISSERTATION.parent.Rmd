@@ -31,51 +31,6 @@ header-includes:
 knitr::opts_chunk$set(fig.width=12, fig.height=8, fig.path='Figs/', echo=FALSE, warning=FALSE, message=FALSE, tidy.opts=list(width.cutoff=60), tidy=TRUE)
 ```
 
-```{r load.packages, include=F}
-
-# Load pacman, installing as necessary.
-my_repo <- 'http://cran.r-project.org'
-if (!require("pacman")) {install.packages("pacman", repos = my_repo)}
-
-# Load the other packages, installing as needed.
-pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png, 
-               grid, gridExtra, beeswarm)
-
-## Source: https://github.com/koundy/ggplot_theme_Publication/blob/master/R/ggplot_theme_Publication.R
-
-theme_HEI <- function(base_size=14) {
-  library(grid)
-  library(ggthemes)
-  (theme_foundation(base_size=base_size)
-  + theme(plot.title = element_text(face = "bold",
-                                    size = rel(1.2), hjust = 0.5),
-          text = element_text(),
-          panel.background = element_rect(colour = NA),
-          plot.background = element_rect(colour = NA),
-          panel.border = element_rect(colour = NA),
-          axis.title = element_text(face = "bold",size = rel(1)),
-          axis.title.y = element_text(angle=90,vjust =2),
-          axis.title.x = element_text(vjust = -0.2),
-          axis.text = element_text(), 
-          axis.line = element_line(colour="black"),
-          axis.ticks = element_line(),
-          panel.grid.major = element_line(colour="#f0f0f0"),
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = NA),
-          legend.position = "bottom",
-          legend.direction = "horizontal",
-          legend.key.size= unit(0.6, "cm"),
-          legend.margin = unit(0, "cm"),
-          legend.title = element_blank(),
-          plot.margin=unit(c(10,5,10,5),"mm"),
-          strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
-          strip.text = element_text(face="bold")
-  ))
-  
-}
-
-```
-
 \pagenumbering{gobble}
 
 ```{r child = '01-titlepage.Rmd'}

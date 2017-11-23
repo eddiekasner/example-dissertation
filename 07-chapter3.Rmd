@@ -45,7 +45,7 @@ if (!require("pacman")) {install.packages("pacman", repos = my_repo)}
 
 # Load the other packages, installing as needed.
 pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png, 
-               grid, gridExtra, beeswarm)
+               grid, gridExtra, beeswarm, datasets, GGally)
 
 ```
 
@@ -75,7 +75,7 @@ theme_HEI <- function(base_size=18) {
           legend.position = "bottom",
           legend.direction = "horizontal",
           legend.key.size= unit(0.6, "cm"),
-          legend.margin = unit(0, "cm"),
+          legend.spacing = unit(0, "cm"),
           legend.title = element_blank(),
           plot.margin=unit(c(4,4,4,4),"mm"),
           strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
@@ -120,171 +120,10 @@ theme_BASIC <- function(base_size=11) {
 
 ```{r upload.and.clean.data.ch3, include=F}
 
-## Read in integrated sampling data from .csv file
-bc    <- read.csv('Data/bc.28feb2017.csv', header=T)
-dylos <- read.csv('Data/dylos.28feb2017.csv', header=T)
-qtrak <- read.csv('Data/qtrak.28feb2017.csv', header=T)
-nano  <- read.csv('Data/nanoscan.28feb2017.csv', header=T)
+## Read in datasets from R datasets package
 
-## Deal with time data
-bc$time         <- as.POSIXct(bc$time, format="%H:%M:%S")
-dylos$time      <- as.POSIXct(dylos$time, format="%H:%M")
-qtrak$time      <- as.POSIXct(qtrak$time, format="%H:%M")
-nano$date.time  <- as.POSIXct(nano$date.time, format="%m/%d/%y %H:%M")
-nano$time       <- format(nano$date.time, "%H:%M")
-nano$time       <- as.POSIXct(nano$time, format="%H:%M")
-
-### Convert Dylos data from #/0.01 ft3 to #/cm^3
-dylos$n_gte_0.5um_cm3  <-  dylos$bin1 / 283.1685
-dylos$n_gte_1.0um_cm3  <-  dylos$bin2 / 283.1685
-dylos$n_gte_2.5um_cm3  <-  dylos$bin3 / 283.1685
-dylos$n_gte_10.0um_cm3 <-  dylos$bin4 / 283.1685
-
-### Determine counts for each bin range
-dylos$n_0.5_1.0um_cm3  <-  dylos$n_gte_0.5um_cm3 -  dylos$n_gte_1.0um_cm3
-dylos$n_1.0_2.5um_cm3  <-  dylos$n_gte_1.0um_cm3 -  dylos$n_gte_2.5um_cm3
-dylos$n_2.5_10.0um_cm3 <-  dylos$n_gte_2.5um_cm3 -  dylos$n_gte_10.0um_cm3
-
-## Subset by sampler type, above/below, offpeak/peak, day1/day2
-bc.abv.ofpk.1 <- subset(bc, location=='above' & period=='off peak' & day=='1')
-bc.blw.ofpk.1 <- subset(bc, location=='below' & period=='off peak' & day=='1')
-bc.abv.peak.1 <- subset(bc, location=='above' & period=='peak'     & day=='1')
-bc.blw.peak.1 <- subset(bc, location=='below' & period=='peak'     & day=='1')
-bc.abv.ofpk.2 <- subset(bc, location=='above' & period=='off peak' & day=='2')
-bc.blw.ofpk.2 <- subset(bc, location=='below' & period=='off peak' & day=='2')
-bc.abv.peak.2 <- subset(bc, location=='above' & period=='peak'     & day=='2')
-bc.blw.peak.2 <- subset(bc, location=='below' & period=='peak'     & day=='2')
-
-dy.abv.ofpk.1 <- subset(dylos, location=='above' & period=='off peak' & day=='1')
-dy.blw.ofpk.1 <- subset(dylos, location=='below' & period=='off peak' & day=='1')
-dy.abv.peak.1 <- subset(dylos, location=='above' & period=='peak'     & day=='1')
-dy.blw.peak.1 <- subset(dylos, location=='below' & period=='peak'     & day=='1')
-dy.abv.ofpk.2 <- subset(dylos, location=='above' & period=='off peak' & day=='2')
-dy.blw.ofpk.2 <- subset(dylos, location=='below' & period=='off peak' & day=='2')
-dy.abv.peak.2 <- subset(dylos, location=='above' & period=='peak'     & day=='2')
-dy.blw.peak.2 <- subset(dylos, location=='below' & period=='peak'     & day=='2')
-
-qt.abv.ofpk.1 <- subset(qtrak, location=='above' & period=='off peak' & day=='1')
-qt.blw.ofpk.1 <- subset(qtrak, location=='below' & period=='off peak' & day=='1')
-qt.abv.peak.1 <- subset(qtrak, location=='above' & period=='peak'     & day=='1')
-qt.blw.peak.1 <- subset(qtrak, location=='below' & period=='peak'     & day=='1')
-qt.abv.ofpk.2 <- subset(qtrak, location=='above' & period=='off peak' & day=='2')
-qt.blw.ofpk.2 <- subset(qtrak, location=='below' & period=='off peak' & day=='2')
-qt.abv.peak.2 <- subset(qtrak, location=='above' & period=='peak'     & day=='2')
-qt.blw.peak.2 <- subset(qtrak, location=='below' & period=='peak'     & day=='2')
-
-nn.abv.ofpk.1 <- subset(nano, location=='above' & period=='off peak'  & day=='1')
-nn.blw.ofpk.1 <- subset(nano, location=='below' & period=='off peak'  & day=='1')
-nn.abv.peak.1 <- subset(nano, location=='above' & period=='peak'      & day=='1')
-nn.blw.peak.1 <- subset(nano, location=='below' & period=='peak'      & day=='1')
-nn.abv.ofpk.2 <- subset(nano, location=='above' & period=='off peak'  & day=='2')
-nn.blw.ofpk.2 <- subset(nano, location=='below' & period=='off peak'  & day=='2')
-nn.abv.peak.2 <- subset(nano, location=='above' & period=='peak'      & day=='2')
-nn.blw.peak.2 <- subset(nano, location=='below' & period=='peak'      & day=='2')
-
-#NEED TO CHANGE REFERENCE YYYY-MM-DD BELOW TO CURRENT DATE (I.E. DATE OF KNIT) FOR TIME SERIES. DO NOT CHANGE REFERENCE TIME!!!
-
-## Seconds for above off peak
-bc.abv.ofpk.1$seconds <- as.numeric(difftime(bc.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-dy.abv.ofpk.1$seconds <- as.numeric(difftime(dy.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-qt.abv.ofpk.1$seconds <- as.numeric(difftime(qt.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-nn.abv.ofpk.1$seconds <- as.numeric(difftime(nn.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-
-bc.abv.ofpk.2$seconds <- as.numeric(difftime(bc.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-dy.abv.ofpk.2$seconds <- as.numeric(difftime(dy.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-qt.abv.ofpk.2$seconds <- as.numeric(difftime(qt.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-nn.abv.ofpk.2$seconds <- as.numeric(difftime(nn.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-
-## Seconds for below off peak
-bc.blw.ofpk.1$seconds <- as.numeric(difftime(bc.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-dy.blw.ofpk.1$seconds <- as.numeric(difftime(dy.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-qt.blw.ofpk.1$seconds <- as.numeric(difftime(qt.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-nn.blw.ofpk.1$seconds <- as.numeric(difftime(nn.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-
-bc.blw.ofpk.2$seconds <- as.numeric(difftime(bc.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-dy.blw.ofpk.2$seconds <- as.numeric(difftime(dy.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-qt.blw.ofpk.2$seconds <- as.numeric(difftime(qt.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-nn.blw.ofpk.2$seconds <- as.numeric(difftime(nn.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-
-## Seconds for above peak
-bc.abv.peak.1$seconds <- as.numeric(difftime(bc.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-dy.abv.peak.1$seconds <- as.numeric(difftime(dy.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-qt.abv.peak.1$seconds <- as.numeric(difftime(qt.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-nn.abv.peak.1$seconds <- as.numeric(difftime(nn.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-
-bc.abv.peak.2$seconds <- as.numeric(difftime(bc.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-dy.abv.peak.2$seconds <- as.numeric(difftime(dy.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-qt.abv.peak.2$seconds <- as.numeric(difftime(qt.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-nn.abv.peak.2$seconds <- as.numeric(difftime(nn.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-
-## Seconds for below peak
-bc.blw.peak.1$seconds <- as.numeric(difftime(bc.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-dy.blw.peak.1$seconds <- as.numeric(difftime(dy.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-qt.blw.peak.1$seconds <- as.numeric(difftime(qt.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-nn.blw.peak.1$seconds <- as.numeric(difftime(nn.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-
-bc.blw.peak.2$seconds <- as.numeric(difftime(bc.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-dy.blw.peak.2$seconds <- as.numeric(difftime(dy.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-qt.blw.peak.2$seconds <- as.numeric(difftime(qt.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-nn.blw.peak.2$seconds <- as.numeric(difftime(nn.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-
-## Merge subsets back together with all second-level data
-bc.abv.ofpk <- rbind(bc.abv.ofpk.1,bc.abv.ofpk.2)
-bc.blw.ofpk <- rbind(bc.blw.ofpk.1,bc.blw.ofpk.2)
-bc.abv.peak <- rbind(bc.abv.peak.1,bc.abv.peak.2)
-bc.blw.peak <- rbind(bc.blw.peak.1,bc.blw.peak.2)
-
-dy.abv.ofpk <- rbind(dy.abv.ofpk.1,dy.abv.ofpk.2)
-dy.blw.ofpk <- rbind(dy.blw.ofpk.1,dy.blw.ofpk.2)
-dy.abv.peak <- rbind(dy.abv.peak.1,dy.abv.peak.2)
-dy.blw.peak <- rbind(dy.blw.peak.1,dy.blw.peak.2)
-
-qt.abv.ofpk <- rbind(qt.abv.ofpk.1,qt.abv.ofpk.2)
-qt.blw.ofpk <- rbind(qt.blw.ofpk.1,qt.blw.ofpk.2)
-qt.abv.peak <- rbind(qt.abv.peak.1,qt.abv.peak.2)
-qt.blw.peak <- rbind(qt.blw.peak.1,qt.blw.peak.2)
-
-nn.abv.ofpk <- rbind(nn.abv.ofpk.1,nn.abv.ofpk.2)
-nn.blw.ofpk <- rbind(nn.blw.ofpk.1,nn.blw.ofpk.2)
-nn.abv.peak <- rbind(nn.abv.peak.1,nn.abv.peak.2)
-nn.blw.peak <- rbind(nn.blw.peak.1,nn.blw.peak.2)
-
-bc.1 <- rbind(bc.abv.ofpk.1, bc.blw.ofpk.1, bc.abv.peak.1, bc.blw.peak.1)
-dy.1 <- rbind(dy.abv.ofpk.1, dy.blw.ofpk.1, dy.abv.peak.1, dy.blw.peak.1)
-qt.1 <- rbind(qt.abv.ofpk.1, qt.blw.ofpk.1, qt.abv.peak.1, qt.blw.peak.1)
-nn.1 <- rbind(nn.abv.ofpk.1, nn.blw.ofpk.1, nn.abv.peak.1, nn.blw.peak.1)
-
-bc.2 <- rbind(bc.abv.ofpk.2, bc.blw.ofpk.2, bc.abv.peak.2, bc.blw.peak.2)
-dy.2 <- rbind(dy.abv.ofpk.2, dy.blw.ofpk.2, dy.abv.peak.2, dy.blw.peak.2)
-qt.2 <- rbind(qt.abv.ofpk.2, qt.blw.ofpk.2, qt.abv.peak.2, qt.blw.peak.2)
-nn.2 <- rbind(nn.abv.ofpk.2, nn.blw.ofpk.2, nn.abv.peak.2, nn.blw.peak.2)
-
-bc.final <- rbind(bc.1,bc.2)
-dy.final <- rbind(dy.1,dy.2)
-qt.final <- rbind(qt.1,qt.2)
-nn.final <- rbind(nn.1,nn.2)
-
-### Melt from wide to long
-
-bc.long <- melt(bc.final, id = c("time","seconds","location","period","day"), measure.vars = c("bc"))
-
-dy.long <- melt(dy.final, id = c("time","seconds","location","period","day"), measure.vars = c("n_0.5_1.0um_cm3","n_1.0_2.5um_cm3","n_2.5_10.0um_cm3","n_gte_10.0um_cm3"))
-
-qt.long <- melt(qt.final, id = c("time","seconds","location","period","day"), measure.vars = c("co2.ppm","co.ppm"))
-                
-nn.long <- melt(nn.final, id = c("time","seconds","location","period","day"), measure.vars = c("bin_11.5","bin_15.4","bin_20.5","bin_27.4","bin_36.5","bin_48.7","bin_64.9","bin_86.6","bin_115.5","bin_154","bin_205.4","bin_273.8","bin_365.2","total.conc.num.cm3"))
-
-### Concatenate location and period
-
-bc.long$location.period <- paste(bc.long$location,bc.long$period)
-dy.long$location.period <- paste(dy.long$location,dy.long$period)
-qt.long$location.period <- paste(qt.long$location,qt.long$period)
-nn.long$location.period <- paste(nn.long$location,nn.long$period)
-
-bc.long$location.period.day <- paste(bc.long$location,bc.long$period,bc.long$day)
-dy.long$location.period.day <- paste(dy.long$location,dy.long$period,dy.long$day)
-qt.long$location.period.day <- paste(qt.long$location,qt.long$period,qt.long$day)
-nn.long$location.period.day <- paste(nn.long$location,nn.long$period,nn.long$day)
+cars <- cars
+mtcars <- mtcars
 
 ```
 
@@ -369,9 +208,9 @@ The following criteria were used:
 
 ### Adipiscing at in tellus integer feugiat
 
-Pellentesque habitant morbi tristique senectus et. Quis ipsum suspendisse ultrices gravida. Tellus in hac habitasse platea. Pretium nibh ipsum consequat nisl vel pretium. Urna molestie at elementum eu facilisis sed odio. Dis 30\% parturient montes nascetur ridiculus mus. Interdum velit euismod in pellentesque massa placerat. Viverra maecenas accumsan lacus vel. Erat velit scelerisque in dictum 52\%. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci (Figure \@ref(fig:below-sampling)). Nec sagittis aliquam malesuada bibendum arcu. Felis imperdiet proin fermentum leo vel orci porta. Ut consequat semper viverra nam libero. Facilisis mauris sit amet massa vitae tortor.
+Pellentesque habitant morbi tristique senectus et. Quis ipsum suspendisse ultrices gravida. Tellus in hac habitasse platea. Pretium nibh ipsum consequat nisl vel pretium. Urna molestie at elementum eu facilisis sed odio. Dis 30\% parturient montes nascetur ridiculus mus. Interdum velit euismod in pellentesque massa placerat. Viverra maecenas accumsan lacus vel. Erat velit scelerisque in dictum 52\%. Mi in nulla posuere sollicitudin aliquam ultrices sagittis orci (Figure \@ref(fig:car-wt-mpg)). Nec sagittis aliquam malesuada bibendum arcu. Felis imperdiet proin fermentum leo vel orci porta (Figure \@ref(fig:car-scatter). Ut consequat semper viverra nam libero. Facilisis mauris sit amet massa vitae tortor.
 
-Vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Lacus sed turpis tincidunt id aliquet risus feugiat. Nullam non nisi est sit. Diam maecenas sed enim ut sem viverra aliquet. A erat nam at lectus (Figure \@ref(fig:nn-boxplot)). Nunc non blandit massa enim nec dui nunc mattis enim. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. Quis ipsum suspendisse ultrices gravida. Sodales ut eu sem integer vitae justo eget magna (Table \@ref(tab:sampling-times-day1)). Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Leo urna molestie at elementum eu facilisis sed odio morbi. Sed libero enim sed faucibus turpis in eu mi bibendum. Urna neque viverra justo nec. Sed sed risus pretium quam vulputate dignissim suspendisse in est. Erat nam at lectus urna. Morbi tincidunt augue interdum velit euismod in pellentesque massa. Nunc eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Parturient montes nascetur ridiculus mus.
+Vestibulum rhoncus est pellentesque elit ullamcorper dignissim. Lacus sed turpis tincidunt id aliquet risus feugiat. Nullam non nisi est sit. Diam maecenas sed enim ut sem viverra aliquet. A erat nam at lectus. Nunc non blandit massa enim nec dui nunc mattis enim. Consectetur adipiscing elit ut aliquam purus sit amet luctus venenatis. Quis ipsum suspendisse ultrices gravida. Sodales ut eu sem integer vitae justo eget magna (Table \@ref(tab:indiv-workrel)). Blandit volutpat maecenas volutpat blandit aliquam etiam erat. Leo urna molestie at elementum eu facilisis sed odio morbi. Sed libero enim sed faucibus turpis in eu mi bibendum. Urna neque viverra justo nec. Sed sed risus pretium quam vulputate dignissim suspendisse in est. Erat nam at lectus urna (Table \@ref(tab:indiv-activity). Morbi tincidunt augue interdum velit euismod in pellentesque massa. Nunc eget lorem dolor sed viverra ipsum nunc aliquet bibendum. Parturient montes nascetur ridiculus mus.
 
 ### Tellus integer feugiat
 
@@ -395,77 +234,68 @@ Odio facilisis mauris sit amet. Lacus sed viverra tellus in. Mattis vulputate en
 
 ## Tables
 
-Table: (\#tab:summary-table)This is it.
+Table: (\#tab:indiv-workrel)Superheros who exercise more than once per week.
 
-```{r summary-table, fig.cap = '(tab:summary-table)', message=F, warnings=F, results='asis', echo=F}
+```{r indiv-workrel, fig.cap = '(tab:indiv-workrel)', message=F, warnings=F, results='asis', echo=F}
 tabl <- " 
------------------------------------------------------------------------------------  
-Contaminant - Instrument    Units      Above      Above    Below        Below
-                                       Off Peak   Peak     Off Peak     Peak
--------------------------- ---------- ---------- -------- ------------ ------------
-CO - Q-Trak *               ppm        0.031      0.094    0.037         **0.121** 
+-----------------------------------------------------
+Weekly workout    Cardio          Strength-training
+                   n(%)              n(%)
+--------------- ---------------- --------------------
+Yes               476 (69.0)       216 (67.5)
 
-CO~2~ - Q-Trak              ppm        484        559      531           **622**
+No                214 (31.0)       104 (32.5)
 
-BC - MicroAeth              fg/cm^3^   2,940      6,280    **16,300**    5,760
+Total             690 (100)        320 (100)
+-----------------------------------------------------
 
-PM - Nanos (12-365 nm)      #/cm^3^    23,990     27,080   **37,860**    22,190
-
-PM - Dylos (0.5-10 µm)      #/cm^3^    11.04      13.00    12.78         **14.70**
------------------------------------------------------------------------------------
 "
 cat(tabl) 
 ```
 
-Table: (\#tab:sampling-times-day1)Traffic at time of crime. (*) Some footnote. (\*\*) Another footnote.
+Table: (\#tab:indiv-activity)Activity at time of crime. (*) Some footnote. (\*\*) Another footnote.
 
-```{r sampling-times-day1, fig.cap = '(tab:sampling-times-day1)', message=F, warnings=F, results='asis', echo=F}
+```{r indiv-activity, fig.cap = '(tab:indiv-activity)', message=F, warnings=F, results='asis', echo=F}
 tabl <- " 
----------------------------------------------------
-Traffic level     Date           Start      Stop          
----------------- -------------- ---------  --------
-Above Off Peak    28 Feb 2017     12:50     13:20
+---------------------------------------------------------------------------------
+Activity at time of crime                            All crops      Tree fruit 
+                                                         n(%)           n(%)
+--------------------------------------------------- -------------- --------------
+Bibendum enim facilisis*                              467 (67.7)     210 (65.6)
 
-Below Off Peak    28 Feb 2017     13:33     14:03
+Malesuada fames ac turpis                             129 (18.7)      75 (23.4)
 
-Above Peak*       28 Feb 2017     15:31     16:01
+Pretium vulputate sapien nec sagittis                  83 (12.0)      27 (8.4)
 
-Below Peak**      28 Feb 2017     16:10     16:40
----------------------------------------------------  
+Enim sit amet venenatis urna**                          8 (1.2)       5 (1.6)
+
+Fringilla est ullamcorper                               3 (0.4)       3 (0.9)
+
+Total                                                 690 (100)      320 (100)
+---------------------------------------------------------------------------------
+
 "
 cat(tabl) 
+
 ```
 
 \clearpage
 
 ## Figures
 
-(ref:below-sampling) Caption for above ground sampling image. 
+(ref:car-wt-mpg) Scatter plot of car and miles per gallon. 
 
-```{r below-sampling, fig.cap='(ref:below-sampling)', fig.width=6, fig.height=6, echo=F}
-library(png)
-library(grid)
-img <- readPNG("Images/BelowSampling1.png")
- grid.raster(img)
-```
+```{r car-wt-mpg, fig.cap='(ref:car-wt-mpg)', fig.width=6, fig.height=6}
 
-(ref:nn-boxplot) Caption for box plot of nanoscan particle sizer.
-
-```{r nn-boxplot, fig.cap='(ref:nn-boxplot)', cache=F, fig.height=10}
-
-par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
-
-ggplot(nn.long[nn.long$variable!='total.conc.num.cm3',], aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Nanoscan Particle Monitoring", x="Bin Size (nm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('11.5','15.4','20.5','27.4','36.5','48.7','64.9','86.6','115.5','154','205.4','273.8','365.2')) + scale_y_continuous(breaks=seq(0, 15000, 2000)) + theme_HEI(16)
+ggplot(mtcars, aes(x=wt, y=mpg)) + geom_point() + theme_HEI(14)
 
 ```
 
-(ref:dy-boxplot) Caption for box plot of Dylos particle sizer.
+(ref:car-scatter) Scatter plot matrix of cars. 
 
-```{r dy-boxplot, fig.cap='(ref:dy-boxplot)', cache=F, fig.height=10}
+```{r car-scatter, fig.cap='(ref:car-scatter)', fig.width=6, fig.height=6}
 
-par(cex.axis=1.25, cex.lab=1.25, cex.main=1.5)
-
-ggplot(dy.long, aes(factor(variable), value)) + geom_boxplot(aes(fill = factor(location.period))) + labs(title = "Dylos Particle Monitoring", x="Bin Size (µm)", y="Concentration (Particles/cm3)") + theme(plot.title = element_text(hjust = 0.5), legend.title=element_blank()) + scale_x_discrete(labels=c('0.5-1.0','1.0-2.5','2.5-10.0','>10.0')) + theme_HEI(16)
+ggpairs(mtcars, columns=c(1,3,4,5,6,7))
 
 ```
 
