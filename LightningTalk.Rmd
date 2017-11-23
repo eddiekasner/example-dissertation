@@ -1,5 +1,8 @@
 ---
-output: slidy_presentation
+output: 
+    slidy_presentation:
+        keep_md: true
+
 incremental: true
 ---
 
@@ -20,7 +23,7 @@ Motivation
 ========================================================
 <center>
 
-![](/home/ejkasner/example.dissertation/Images/Rosanna.png)
+![](Images/Rosanna.png)
 </center>
 
 Image source: [rosannavanhespenresearch.wordpress.com](https://rosannavanhespenresearch.wordpress.com/2016/02/03/writing-your-thesis-with-r-markdown-1-getting-started/)
