@@ -1,10 +1,3 @@
----
-output: 
-    slidy_presentation:
-        keep_md: true
-
-incremental: true
----
 
 Dissertation, Thesis, or Project <br> with Knitr and Markdown
 ========================================================
