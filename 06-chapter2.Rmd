@@ -39,11 +39,11 @@ knitr::opts_chunk$set(echo=F,
 
 ```{r load.packages.ch2, include=F}
 
-# Load pacman, installing as necessary.
+## Load pacman, installing as necessary.
 my_repo <- 'http://cran.r-project.org'
 if (!require("pacman")) {install.packages("pacman", repos = my_repo)}
 
-# Load the other packages, installing as needed.
+## Load the other packages, installing as needed.
 pacman::p_load(knitr, bookdown, reshape2, tidyverse, lubridate, ggthemes, png, 
                grid, gridExtra, beeswarm)
 
@@ -85,38 +85,6 @@ theme_HEI <- function(base_size=18) {
   
 }
 
-## Basic theme ####
-
-theme_BASIC <- function(base_size=11) {
-  library(grid)
-  library(ggthemes)
-  (theme_foundation(base_size=base_size)
-  + theme(plot.title = element_text(hjust = 0.5),
-          text = element_text(),
-          panel.background = element_rect(colour = NA),
-          plot.background = element_rect(colour = NA),
-          panel.border = element_rect(colour = NA),
-          axis.title = element_text(face = "bold",size = rel(1)),
-          axis.title.y = element_blank(),
-          axis.title.x = element_blank(),
-          axis.text = element_text(), 
-          axis.line = element_blank(),
-          axis.ticks = element_line(),
-          panel.grid.major = element_line(colour="gray65"),
-          panel.grid.minor = element_blank(),
-          legend.key = element_rect(colour = NA),
-          legend.position = "bottom",
-          legend.direction = "horizontal",
-          legend.key.size= unit(0.4, "cm"),
-          legend.margin = unit(0, "cm"),
-          legend.title = element_blank(),
-          plot.margin=unit(c(2,2,2,2),"mm"),
-          strip.background=element_rect(colour="#f0f0f0",fill="#f0f0f0"),
-          strip.text = element_text(face="bold")
-  ))
-  
-}
-
 ```
 
 ```{r upload.and.clean.data.ch2, include=F}
@@ -135,24 +103,24 @@ nano$date.time  <- as.POSIXct(nano$date.time, format="%m/%d/%y %H:%M")
 nano$time       <- format(nano$date.time, "%H:%M")
 nano$time       <- as.POSIXct(nano$time, format="%H:%M")
 
-### Convert Dylos data from #/0.01 ft3 to #/cm^3
+## Convert Dylos data from #/0.01 ft3 to #/cm^3
 dylos$n_gte_0.5um_cm3  <-  dylos$bin1 / 283.1685
 dylos$n_gte_1.0um_cm3  <-  dylos$bin2 / 283.1685
 dylos$n_gte_2.5um_cm3  <-  dylos$bin3 / 283.1685
 dylos$n_gte_10.0um_cm3 <-  dylos$bin4 / 283.1685
 
-### Determine counts for each bin range
+## Determine counts for each bin range
 dylos$n_0.5_1.0um_cm3  <-  dylos$n_gte_0.5um_cm3 -  dylos$n_gte_1.0um_cm3
 dylos$n_1.0_2.5um_cm3  <-  dylos$n_gte_1.0um_cm3 -  dylos$n_gte_2.5um_cm3
 dylos$n_2.5_10.0um_cm3 <-  dylos$n_gte_2.5um_cm3 -  dylos$n_gte_10.0um_cm3
 
-### set_ref_time(): Set times as difference from reference times
+## set_ref_time(): Set times as difference from reference times
 set_ref_time <- function(df, ref.df) {
   df %>% left_join(ref.df, by = c('location', 'period', 'day')) %>% 
     mutate(`seconds` = as.numeric(seconds(interval(`time`, ref.datetime))))
 }
 
-### Create reference time dataframe
+## Create reference time dataframe
 ref.date <- as.character(Sys.Date())
 ref.time <- c('12:50:00', '12:56:00', '13:33:00', '13:36:00', 
                '15:31:00', '16:14:00', '16:10:00', '16:55:00')
@@ -164,14 +132,13 @@ ref.df <- data.frame(location = factor(rep(c(rep('above', 2), rep('below', 2)), 
                      day = rep(c(1L, 2L), 4), ref.datetime = ref.datetime, 
                      stringsAsFactors = FALSE)
 
-### Set seconds variable from reference dataframe
+## Set seconds variable from reference dataframe
 bc.final <- set_ref_time(bc, ref.df)
 dy.final <- set_ref_time(dylos, ref.df)
 qt.final <- set_ref_time(qtrak, ref.df)
 nn.final <- set_ref_time(nano, ref.df)
 
-### Melt from wide to long
-
+## Melt from wide to long
 bc.long <- melt(bc.final, id = c("time","seconds","location","period","day"), measure.vars = c("bc"))
 
 dy.long <- melt(dy.final, id = c("time","seconds","location","period","day"), measure.vars = c("n_0.5_1.0um_cm3","n_1.0_2.5um_cm3","n_2.5_10.0um_cm3","n_gte_10.0um_cm3"))
@@ -180,8 +147,7 @@ qt.long <- melt(qt.final, id = c("time","seconds","location","period","day"), me
                 
 nn.long <- melt(nn.final, id = c("time","seconds","location","period","day"), measure.vars = c("bin_11.5","bin_15.4","bin_20.5","bin_27.4","bin_36.5","bin_48.7","bin_64.9","bin_86.6","bin_115.5","bin_154","bin_205.4","bin_273.8","bin_365.2","total.conc.num.cm3"))
 
-### Concatenate location and period
-
+## Concatenate location and period
 bc.long$location.period <- paste(bc.long$location,bc.long$period)
 dy.long$location.period <- paste(dy.long$location,dy.long$period)
 qt.long$location.period <- paste(qt.long$location,qt.long$period)
