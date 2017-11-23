@@ -146,124 +146,29 @@ dylos$n_0.5_1.0um_cm3  <-  dylos$n_gte_0.5um_cm3 -  dylos$n_gte_1.0um_cm3
 dylos$n_1.0_2.5um_cm3  <-  dylos$n_gte_1.0um_cm3 -  dylos$n_gte_2.5um_cm3
 dylos$n_2.5_10.0um_cm3 <-  dylos$n_gte_2.5um_cm3 -  dylos$n_gte_10.0um_cm3
 
-### NEED TO WRITE FUNCTIONS TO MAKE CODE ON LINES 151-261 MORE EFFICIENT ###
+### set_ref_time(): Set times as difference from reference times
+set_ref_time <- function(df, ref.df) {
+  df %>% left_join(ref.df, by = c('location', 'period', 'day')) %>% 
+    mutate(`seconds` = as.numeric(seconds(interval(`time`, ref.datetime))))
+}
 
-## Subset by sampler type, above/below, offpeak/peak, day1/day2
-bc.abv.ofpk.1 <- subset(bc, location=='above' & period=='off peak' & day=='1')
-bc.blw.ofpk.1 <- subset(bc, location=='below' & period=='off peak' & day=='1')
-bc.abv.peak.1 <- subset(bc, location=='above' & period=='peak'     & day=='1')
-bc.blw.peak.1 <- subset(bc, location=='below' & period=='peak'     & day=='1')
-bc.abv.ofpk.2 <- subset(bc, location=='above' & period=='off peak' & day=='2')
-bc.blw.ofpk.2 <- subset(bc, location=='below' & period=='off peak' & day=='2')
-bc.abv.peak.2 <- subset(bc, location=='above' & period=='peak'     & day=='2')
-bc.blw.peak.2 <- subset(bc, location=='below' & period=='peak'     & day=='2')
+### Create reference time dataframe
+ref.date <- as.character(Sys.Date())
+ref.time <- c('12:50:00', '12:56:00', '13:33:00', '13:36:00', 
+               '15:31:00', '16:14:00', '16:10:00', '16:55:00')
+ref.datetime <- paste(ref.date, ref.time)
+ref.df <- data.frame(location = factor(rep(c(rep('above', 2), rep('below', 2)), 2), 
+                                          levels = c('', 'above', 'below')),
+                     period = factor(c(rep('off peak', 4), rep('peak', 4)), 
+                                        levels = c('', 'off peak', 'peak')),
+                     day = rep(c(1L, 2L), 4), ref.datetime = ref.datetime, 
+                     stringsAsFactors = FALSE)
 
-dy.abv.ofpk.1 <- subset(dylos, location=='above' & period=='off peak' & day=='1')
-dy.blw.ofpk.1 <- subset(dylos, location=='below' & period=='off peak' & day=='1')
-dy.abv.peak.1 <- subset(dylos, location=='above' & period=='peak'     & day=='1')
-dy.blw.peak.1 <- subset(dylos, location=='below' & period=='peak'     & day=='1')
-dy.abv.ofpk.2 <- subset(dylos, location=='above' & period=='off peak' & day=='2')
-dy.blw.ofpk.2 <- subset(dylos, location=='below' & period=='off peak' & day=='2')
-dy.abv.peak.2 <- subset(dylos, location=='above' & period=='peak'     & day=='2')
-dy.blw.peak.2 <- subset(dylos, location=='below' & period=='peak'     & day=='2')
-
-qt.abv.ofpk.1 <- subset(qtrak, location=='above' & period=='off peak' & day=='1')
-qt.blw.ofpk.1 <- subset(qtrak, location=='below' & period=='off peak' & day=='1')
-qt.abv.peak.1 <- subset(qtrak, location=='above' & period=='peak'     & day=='1')
-qt.blw.peak.1 <- subset(qtrak, location=='below' & period=='peak'     & day=='1')
-qt.abv.ofpk.2 <- subset(qtrak, location=='above' & period=='off peak' & day=='2')
-qt.blw.ofpk.2 <- subset(qtrak, location=='below' & period=='off peak' & day=='2')
-qt.abv.peak.2 <- subset(qtrak, location=='above' & period=='peak'     & day=='2')
-qt.blw.peak.2 <- subset(qtrak, location=='below' & period=='peak'     & day=='2')
-
-nn.abv.ofpk.1 <- subset(nano, location=='above' & period=='off peak'  & day=='1')
-nn.blw.ofpk.1 <- subset(nano, location=='below' & period=='off peak'  & day=='1')
-nn.abv.peak.1 <- subset(nano, location=='above' & period=='peak'      & day=='1')
-nn.blw.peak.1 <- subset(nano, location=='below' & period=='peak'      & day=='1')
-nn.abv.ofpk.2 <- subset(nano, location=='above' & period=='off peak'  & day=='2')
-nn.blw.ofpk.2 <- subset(nano, location=='below' & period=='off peak'  & day=='2')
-nn.abv.peak.2 <- subset(nano, location=='above' & period=='peak'      & day=='2')
-nn.blw.peak.2 <- subset(nano, location=='below' & period=='peak'      & day=='2')
-
-## Seconds for above off peak
-bc.abv.ofpk.1$seconds <- as.numeric(difftime(bc.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-dy.abv.ofpk.1$seconds <- as.numeric(difftime(dy.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-qt.abv.ofpk.1$seconds <- as.numeric(difftime(qt.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-nn.abv.ofpk.1$seconds <- as.numeric(difftime(nn.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
-
-bc.abv.ofpk.2$seconds <- as.numeric(difftime(bc.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-dy.abv.ofpk.2$seconds <- as.numeric(difftime(dy.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-qt.abv.ofpk.2$seconds <- as.numeric(difftime(qt.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-nn.abv.ofpk.2$seconds <- as.numeric(difftime(nn.abv.ofpk.2$time, "2017-03-09 12:56:00", units = "secs"))
-
-## Seconds for below off peak
-bc.blw.ofpk.1$seconds <- as.numeric(difftime(bc.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-dy.blw.ofpk.1$seconds <- as.numeric(difftime(dy.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-qt.blw.ofpk.1$seconds <- as.numeric(difftime(qt.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-nn.blw.ofpk.1$seconds <- as.numeric(difftime(nn.blw.ofpk.1$time, "2017-03-09 13:33:00", units = "secs"))
-
-bc.blw.ofpk.2$seconds <- as.numeric(difftime(bc.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-dy.blw.ofpk.2$seconds <- as.numeric(difftime(dy.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-qt.blw.ofpk.2$seconds <- as.numeric(difftime(qt.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-nn.blw.ofpk.2$seconds <- as.numeric(difftime(nn.blw.ofpk.2$time, "2017-03-09 13:36:00", units = "secs"))
-
-## Seconds for above peak
-bc.abv.peak.1$seconds <- as.numeric(difftime(bc.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-dy.abv.peak.1$seconds <- as.numeric(difftime(dy.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-qt.abv.peak.1$seconds <- as.numeric(difftime(qt.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-nn.abv.peak.1$seconds <- as.numeric(difftime(nn.abv.peak.1$time, "2017-03-09 15:31:00", units = "secs"))
-
-bc.abv.peak.2$seconds <- as.numeric(difftime(bc.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-dy.abv.peak.2$seconds <- as.numeric(difftime(dy.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-qt.abv.peak.2$seconds <- as.numeric(difftime(qt.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-nn.abv.peak.2$seconds <- as.numeric(difftime(nn.abv.peak.2$time, "2017-03-09 16:14:00", units = "secs"))
-
-## Seconds for below peak
-bc.blw.peak.1$seconds <- as.numeric(difftime(bc.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-dy.blw.peak.1$seconds <- as.numeric(difftime(dy.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-qt.blw.peak.1$seconds <- as.numeric(difftime(qt.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-nn.blw.peak.1$seconds <- as.numeric(difftime(nn.blw.peak.1$time, "2017-03-09 16:10:00", units = "secs"))
-
-bc.blw.peak.2$seconds <- as.numeric(difftime(bc.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-dy.blw.peak.2$seconds <- as.numeric(difftime(dy.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-qt.blw.peak.2$seconds <- as.numeric(difftime(qt.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-nn.blw.peak.2$seconds <- as.numeric(difftime(nn.blw.peak.2$time, "2017-03-09 16:55:00", units = "secs"))
-
-## Merge subsets back together with all second-level data
-bc.abv.ofpk <- rbind(bc.abv.ofpk.1,bc.abv.ofpk.2)
-bc.blw.ofpk <- rbind(bc.blw.ofpk.1,bc.blw.ofpk.2)
-bc.abv.peak <- rbind(bc.abv.peak.1,bc.abv.peak.2)
-bc.blw.peak <- rbind(bc.blw.peak.1,bc.blw.peak.2)
-
-dy.abv.ofpk <- rbind(dy.abv.ofpk.1,dy.abv.ofpk.2)
-dy.blw.ofpk <- rbind(dy.blw.ofpk.1,dy.blw.ofpk.2)
-dy.abv.peak <- rbind(dy.abv.peak.1,dy.abv.peak.2)
-dy.blw.peak <- rbind(dy.blw.peak.1,dy.blw.peak.2)
-
-qt.abv.ofpk <- rbind(qt.abv.ofpk.1,qt.abv.ofpk.2)
-qt.blw.ofpk <- rbind(qt.blw.ofpk.1,qt.blw.ofpk.2)
-qt.abv.peak <- rbind(qt.abv.peak.1,qt.abv.peak.2)
-qt.blw.peak <- rbind(qt.blw.peak.1,qt.blw.peak.2)
-
-nn.abv.ofpk <- rbind(nn.abv.ofpk.1,nn.abv.ofpk.2)
-nn.blw.ofpk <- rbind(nn.blw.ofpk.1,nn.blw.ofpk.2)
-nn.abv.peak <- rbind(nn.abv.peak.1,nn.abv.peak.2)
-nn.blw.peak <- rbind(nn.blw.peak.1,nn.blw.peak.2)
-
-bc.1 <- rbind(bc.abv.ofpk.1, bc.blw.ofpk.1, bc.abv.peak.1, bc.blw.peak.1)
-dy.1 <- rbind(dy.abv.ofpk.1, dy.blw.ofpk.1, dy.abv.peak.1, dy.blw.peak.1)
-qt.1 <- rbind(qt.abv.ofpk.1, qt.blw.ofpk.1, qt.abv.peak.1, qt.blw.peak.1)
-nn.1 <- rbind(nn.abv.ofpk.1, nn.blw.ofpk.1, nn.abv.peak.1, nn.blw.peak.1)
-
-bc.2 <- rbind(bc.abv.ofpk.2, bc.blw.ofpk.2, bc.abv.peak.2, bc.blw.peak.2)
-dy.2 <- rbind(dy.abv.ofpk.2, dy.blw.ofpk.2, dy.abv.peak.2, dy.blw.peak.2)
-qt.2 <- rbind(qt.abv.ofpk.2, qt.blw.ofpk.2, qt.abv.peak.2, qt.blw.peak.2)
-nn.2 <- rbind(nn.abv.ofpk.2, nn.blw.ofpk.2, nn.abv.peak.2, nn.blw.peak.2)
-
-bc.final <- rbind(bc.1,bc.2)
-dy.final <- rbind(dy.1,dy.2)
-qt.final <- rbind(qt.1,qt.2)
-nn.final <- rbind(nn.1,nn.2)
+### Set seconds variable from reference dataframe
+bc.final <- set_ref_time(bc, ref.df)
+dy.final <- set_ref_time(dylos, ref.df)
+qt.final <- set_ref_time(qtrak, ref.df)
+nn.final <- set_ref_time(nano, ref.df)
 
 ### Melt from wide to long
 
