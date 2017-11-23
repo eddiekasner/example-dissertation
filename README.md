@@ -6,7 +6,7 @@ For more resources, please visit:
 1. [Rosanna's Research](https://rosannavanhespenresearch.wordpress.com/2016/02/03/writing-your-thesis-with-r-markdown-1-getting-started/)
 2. [Bookdown package](https://bookdown.org/yihui/bookdown/)
 
-Dependencies: knitr, bookdown, pdf creater (TeX)
+Dependencies: knitr, bookdown, pdf creator (TeX)
 
 Collaborators: Brian High, Boris Reiss
 
