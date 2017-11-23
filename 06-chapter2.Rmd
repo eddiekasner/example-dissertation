@@ -146,6 +146,8 @@ dylos$n_0.5_1.0um_cm3  <-  dylos$n_gte_0.5um_cm3 -  dylos$n_gte_1.0um_cm3
 dylos$n_1.0_2.5um_cm3  <-  dylos$n_gte_1.0um_cm3 -  dylos$n_gte_2.5um_cm3
 dylos$n_2.5_10.0um_cm3 <-  dylos$n_gte_2.5um_cm3 -  dylos$n_gte_10.0um_cm3
 
+### NEED TO WRITE FUNCTIONS TO MAKE CODE ON LINES 151-261 MORE EFFICIENT ###
+
 ## Subset by sampler type, above/below, offpeak/peak, day1/day2
 bc.abv.ofpk.1 <- subset(bc, location=='above' & period=='off peak' & day=='1')
 bc.blw.ofpk.1 <- subset(bc, location=='below' & period=='off peak' & day=='1')
