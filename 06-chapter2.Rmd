@@ -183,8 +183,6 @@ nn.blw.ofpk.2 <- subset(nano, location=='below' & period=='off peak'  & day=='2'
 nn.abv.peak.2 <- subset(nano, location=='above' & period=='peak'      & day=='2')
 nn.blw.peak.2 <- subset(nano, location=='below' & period=='peak'      & day=='2')
 
-#NEED TO CHANGE REFERENCE YYYY-MM-DD BELOW TO CURRENT DATE (I.E. DATE OF KNIT) FOR TIME SERIES. DO NOT CHANGE REFERENCE TIME!!!
-
 ## Seconds for above off peak
 bc.abv.ofpk.1$seconds <- as.numeric(difftime(bc.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
 dy.abv.ofpk.1$seconds <- as.numeric(difftime(dy.abv.ofpk.1$time, "2017-03-09 12:50:00", units = "secs"))
