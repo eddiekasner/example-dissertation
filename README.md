@@ -1,6 +1,6 @@
 # example-dissertation
 
-This repo provides templates for anyone wanting to write a dissertation or thesis using R Markdown. It is a minimal example with dummy code and text to show how all of the elements come together to produce the final document. Here are the [slides from a "lightning talk"](LightningTalk.md) and a [video recording](https://youtu.be/AP_nU9jd0mk) that walks through the example.
+This repo provides a template for anyone wanting to write a dissertation or thesis using R Markdown. It is a minimal example with dummy code and text to show how all of the elements come together to produce the final document, as specified by the University of Washington requirements. Here are the [slides from a "lightning talk"](LightningTalk.md) and a [video recording](https://youtu.be/AP_nU9jd0mk) that walks through the example.
 
 For more resources, please visit:
 1. [Bookdown Package](https://bookdown.org/yihui/bookdown/) and [yihui's GitHub page](https://github.com/yihui)
